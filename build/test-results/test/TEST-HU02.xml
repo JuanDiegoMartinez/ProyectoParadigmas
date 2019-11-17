@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="HU02" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-11-17T17:51:35" hostname="DESKTOP-HPNFMA0" time="0.0">
+  <properties/>
+  <testcase name="datosMeteorologicoshoy_ciudadCorrecta" classname="HU02" time="0.0"/>
+  <testcase name="datosMeteorologicoshoy_ciudadErronea" classname="HU02" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
