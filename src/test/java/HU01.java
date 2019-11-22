@@ -1,4 +1,4 @@
-import Data.Tiempo;
+import Model.Tiempo;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
