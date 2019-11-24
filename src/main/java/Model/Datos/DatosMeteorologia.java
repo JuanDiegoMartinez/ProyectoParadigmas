@@ -1,6 +1,6 @@
-package Model;
+package Model.Datos;
 
-public class Tiempo {
+public class DatosMeteorologia {
 
     private String ubicacion;
     private String dia;
@@ -9,7 +9,7 @@ public class Tiempo {
     private String humedad;
     private String viento;
 
-    public Tiempo(String ubicacion, String dia, String tipo, String temp, String humedad, String viento) {
+    public DatosMeteorologia(String ubicacion, String dia, String tipo, String temp, String humedad, String viento) {
         this.ubicacion = ubicacion;
         this.tipo = dia;
         this.dia = tipo;

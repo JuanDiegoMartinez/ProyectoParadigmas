@@ -1,4 +1,5 @@
-import Model.Tiempo;
+import Model.Datos.DatosMeteorologia;
+import Model.SistemaFacade;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -8,51 +9,42 @@ import static org.junit.Assert.assertEquals;
 
 public class HU01 {
 
-    private static List<Tiempo> tiempos;
+    //private static List<DatosMeteorologia> datosMeteorologias;
 
+    /*
     @BeforeClass
     public static void creaTiempos() {
-        Tiempo tiempo1 = new Tiempo("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
-        Tiempo tiempo2 = new Tiempo("Barcelona", "03/11/19", "Nublado", "15 ºC", "35%", "40 m/s");
-        Tiempo tiempo3 = new Tiempo("Valencia", "03/11/19", "Soleado", "25 ºC", "0%", "5 m/s");
+        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
+        DatosMeteorologia datosMeteorologia2 = new DatosMeteorologia("Barcelona", "03/11/19", "Nublado", "15 ºC", "35%", "40 m/s");
+        DatosMeteorologia datosMeteorologia3 = new DatosMeteorologia("Valencia", "03/11/19", "Soleado", "25 ºC", "0%", "5 m/s");
 
-        tiempos = new ArrayList<Tiempo>();
-        tiempos.add(tiempo1);
-        tiempos.add(tiempo2);
-        tiempos.add(tiempo3);
+        datosMeteorologias = new ArrayList<DatosMeteorologia>();
+        datosMeteorologias.add(datosMeteorologia1);
+        datosMeteorologias.add(datosMeteorologia2);
+        datosMeteorologias.add(datosMeteorologia3);
     }
+     */
 
     //Test del primer escenario
     @Test
     public void datosMeteorologicoshoy_ciudadCorrecta() {
 
-        String ciudad = "Madrid";
-        boolean esta = false;
+        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
 
-        for (Tiempo t : tiempos) {
+        SistemaFacade sistema = new SistemaFacade();
 
-            if (t.getUbicacion().toLowerCase().equals(ciudad.toLowerCase())) {
-                esta = true;
-            }
-        }
+        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCiudad("Madrid"));
 
-        assertEquals(true, esta);
     }
 
     //Test del segundo escenario
     @Test
     public void datosMeteorologicoshoy_ciudadErronea() {
 
-        String ciudad = "Madrod";
-        boolean esta = false;
+        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
 
-        for (Tiempo t : tiempos) {
+        SistemaFacade sistema = new SistemaFacade();
 
-            if (t.getUbicacion().toLowerCase().equals(ciudad.toLowerCase())) {
-                esta = true;
-            }
-        }
-
-        assertEquals(false, esta);
+        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCiudad("Madrod"));
     }
 }
