@@ -27,23 +27,23 @@ public class HU02 {
 
     //Test del primer escenario
     @Test
-    public void datosMeteorologicoshoy_ciudadCorrecta() {
+    public void datosMeteorologicoshoy_coordenadasCorrectas() {
 
         DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("(-4.324,40.343)", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
 
         SistemaFacade sistema = new SistemaFacade();
 
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCiudad("(-4.324,40.343)"));
+        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCoordenadas("(-4.324,40.343)"));
     }
 
     //Test del segundo escenario
     @Test
-    public void datosMeteorologicoshoy_ciudadErronea() {
+    public void datosMeteorologicoshoy_coordenadasErroneas() {
 
         DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("(-4.324,40.343)", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
 
         SistemaFacade sistema = new SistemaFacade();
 
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCiudad("(181.323,95.314)"));
+        assertEquals(datosMeteorologia1, sistema.obtenerTiempoHoyCoordenadas("(181.323,95.314)"));
     }
 }
