@@ -31,6 +31,7 @@ public class HU01 {
 
         DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
         String a = "hola";
+        String b = "adios";
 
         SistemaFacade sistema = new SistemaFacade();
 
