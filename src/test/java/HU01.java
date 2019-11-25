@@ -30,6 +30,7 @@ public class HU01 {
     public void datosMeteorologicoshoy_ciudadCorrecta() {
 
         DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
+        String a = "hola";
 
         SistemaFacade sistema = new SistemaFacade();
 
