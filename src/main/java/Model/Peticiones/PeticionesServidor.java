@@ -55,7 +55,7 @@ public class PeticionesServidor {
 
             in.close();
             return respuesta.toString();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new LocationNotFoundException("La ubicación utilizada no existe.");
         } catch (Exception e) {
             e.printStackTrace();

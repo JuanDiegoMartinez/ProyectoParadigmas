@@ -1,25 +1,32 @@
-import static org.junit.Assert.assertEquals;
+import Controller.GestorPeticiones;
+import Excepciones.LocationNotFoundException;
+import Model.Datos.Coordenadas;
+import Model.Datos.DatosMeteorologia;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.List;
 
 public class HU04 {
 
     // Primer escenario
     @Test
-    public void datosMeteorologicosProx3Dias_coordenadasCorrectas() {
-
-        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("(-4.324,40.343)", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
-        SistemaFacade sistema = new SistemaFacade();
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoXdiasCoordenadas("(-4.324,40.343)", 3));
-
+    public void datosMeteorologicosProx3Dias_coordenadasCorrectas() throws LocationNotFoundException {
+        Coordenadas coordenadas = new Coordenadas(25, -27);
+        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas, 3);
+        Assert.assertEquals(resultado.size(), 3);
+        for(DatosMeteorologia tiempo : resultado) {
+            Assert.assertNotEquals(tiempo.getUbicacion(), null);
+            Assert.assertNotEquals(tiempo.getDia(), null);
+            Assert.assertNotEquals(tiempo.getTipoDia(), null);
+        }
     }
 
     // Segundo escenario
-    @Test
-    public void datosMeteorologicosProx3Dias_coordenadasErroneas() {
-
-        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("(-4.324,40.343)", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
-        SistemaFacade sistema = new SistemaFacade();
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoXdiasCoordenadas("(181.323,95.314)", 3));
-
+    @Test(expected = LocationNotFoundException.class)
+    public void datosMeteorologicosProx3Dias_coordenadasErroneas() throws LocationNotFoundException {
+        Coordenadas coordenadas = new Coordenadas(25, -147);
+        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas, 3);
     }
 
 }

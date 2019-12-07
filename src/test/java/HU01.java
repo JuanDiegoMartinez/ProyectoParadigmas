@@ -1,26 +1,27 @@
+import Controller.GestorPeticiones;
+import Excepciones.LocationNotFoundException;
+import Model.Datos.Ciudad;
 import Model.Datos.DatosMeteorologia;
-import Model.SistemaFacade;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import Excepciones.LocationNotFoundExcepion;
-import static org.junit.Assert.assertEquals;
 
 public class HU01 {
 
-    //Test del primer escenario
+    // Primer escenario
     @Test
-    public void datosMeteorologicoshoy_ciudadCorrecta() {
-        Ciudad c = new Ciudad("Madrid");
-        DatosMeteorologia res = GestorPeticiones.obtenerTiempoHoyCiudad(c);
+    public void datosMeteorologicoshoy_ciudadCorrecta() throws LocationNotFoundException {
+        Ciudad ciudad = new Ciudad("Madrid");
+        DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCiudad(ciudad);
+        Assert.assertNotEquals(tiempo.getUbicacion(), null);
+        Assert.assertNotEquals(tiempo.getDia(), null);
+        Assert.assertNotEquals(tiempo.getTipoDia(), null);
     }
 
-    //Test del segundo escenario
+    // Segundo escenario
     @Test(expected = LocationNotFoundException.class)
-    public void datosMeteorologicoshoy_ciudadErronea() {
-        Ciudad c = new Ciudad("Madrod");
-        DatosMeteorologia res = GestorPeticiones.obtenerTiempoHoyCiudad(c);
+    public void datosMeteorologicoshoy_ciudadErronea() throws LocationNotFoundException {
+        Ciudad ciudad = new Ciudad("Madrod");
+        DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCiudad(ciudad);
     }
 }

@@ -1,25 +1,32 @@
-import static org.junit.Assert.assertEquals;
+import Controller.GestorPeticiones;
+import Excepciones.LocationNotFoundException;
+import Model.Datos.Ciudad;
+import Model.Datos.DatosMeteorologia;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.List;
 
 public class HU03 {
 
     // Primer escenario
     @Test
-    public void datosMeteorologicosProx3Dias_ciudadCorrecta() {
-
-        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
-        SistemaFacade sistema = new SistemaFacade();
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoXdiasCiudad("Madrid", 3));
-
+    public void datosMeteorologicosProx3Dias_ciudadCorrecta() throws LocationNotFoundException {
+        Ciudad ciudad = new Ciudad("Madrid");
+        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 3);
+        Assert.assertEquals(resultado.size(), 3);
+        for(DatosMeteorologia tiempo : resultado) {
+            Assert.assertNotEquals(tiempo.getUbicacion(), null);
+            Assert.assertNotEquals(tiempo.getDia(), null);
+            Assert.assertNotEquals(tiempo.getTipoDia(), null);
+        }
     }
 
     // Segundo escenario
-    @Test
-    public void datosMeteorologicosProx3Dias_ciudadErronea() {
-
-        DatosMeteorologia datosMeteorologia1 = new DatosMeteorologia("Madrid", "03/11/19", "Soleado", "20 ºC", "0%", "15 m/s");
-        SistemaFacade sistema = new SistemaFacade();
-        assertEquals(datosMeteorologia1, sistema.obtenerTiempoXdiasCiudad("Madrod", 3));
-
+    @Test(expected = LocationNotFoundException.class)
+    public void datosMeteorologicosProx3Dias_ciudadErronea() throws LocationNotFoundException {
+        Ciudad ciudad = new Ciudad("Madrod");
+        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 3);
     }
 
 }
