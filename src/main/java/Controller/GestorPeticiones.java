@@ -1,5 +1,6 @@
 package Controller;
 
+import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
@@ -11,29 +12,33 @@ import java.util.List;
 // Utiliza la clase JSONParser para procesar los Strings recibidos.
 public class GestorPeticiones {
 
-    public static DatosMeteorologia obtenerTiempoHoyCiudad(Ciudad ciudad) {
-        String resultado = PeticionesServidor.peticionCiudadHoy(ciudad);
-        return JSONParser.convertirCiudadUnica(resultado);
+    public static DatosMeteorologia obtenerTiempoHoyCiudad(Ciudad ciudad) throws LocationNotFoundException {
+        String outApi = PeticionesServidor.peticionCiudadHoy(ciudad);
+        DatosMeteorologia resultado = JSONParser.convertirDatosUnicos(outApi);
+        resultado.setUbicacion(ciudad);
+        return resultado;
     }
 
-    public static DatosMeteorologia obtenerTiempoHoyCoordenadas(Coordenadas coordenadas) {
-        String resultado = PeticionesServidor.peticionCoordenadasHoy(coordenadas);
-        return JSONParser.convertirCiudadUnica(resultado);
+    public static DatosMeteorologia obtenerTiempoHoyCoordenadas(Coordenadas coordenadas) throws LocationNotFoundException {
+        String outApi = PeticionesServidor.peticionCoordenadasHoy(coordenadas);
+        DatosMeteorologia resultado = JSONParser.convertirDatosUnicos(outApi);
+        resultado.setUbicacion(coordenadas);
+        return resultado;
     }
 
-    public static List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) {
+    public static List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) throws LocationNotFoundException {
         if(dias > 5)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 5.");
         String resultado = PeticionesServidor.peticionCiudad5Dias(ciudad);
-        List<DatosMeteorologia> datosParser = JSONParser.convertirListaCiudades(resultado);
+        List<DatosMeteorologia> datosParser = JSONParser.convertirListaDatos(resultado);
         return datosParser.subList(0, dias-1);
     }
 
-    public static List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) {
+    public static List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) throws LocationNotFoundException {
         if(dias > 5)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 5.");
         String resultado = PeticionesServidor.peticionCoordenadas5Dias(coordenadas);
-        List<DatosMeteorologia> datosParser = JSONParser.convertirListaCiudades(resultado);
+        List<DatosMeteorologia> datosParser = JSONParser.convertirListaDatos(resultado);
         return datosParser.subList(0, dias-1);
     }
 

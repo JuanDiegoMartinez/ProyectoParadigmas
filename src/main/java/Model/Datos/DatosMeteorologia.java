@@ -11,6 +11,8 @@ public class DatosMeteorologia {
     private double humedad;
     private double viento;
 
+    public DatosMeteorologia() {}
+
     public DatosMeteorologia(Ubicacion ubicacion, LocalDate dia, String tipoDia, double temp, double humedad, double viento) {
         this.ubicacion = ubicacion;
         this.dia = dia;
@@ -37,8 +39,8 @@ public class DatosMeteorologia {
     @Override
     public String toString() {
         return "DatosMeteorologia{" +
-                "ubicacion=" + ubicacion.toString() +
-                ", dia=" + dia.toString() +
+                "ubicacion={" + ubicacion + "}" +
+                ", dia=" + dia +
                 ", tipoDia='" + tipoDia + '\'' +
                 ", temp=" + temp +
                 ", humedad=" + humedad +
