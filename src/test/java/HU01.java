@@ -5,7 +5,6 @@ import Model.Datos.DatosMeteorologia;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class HU01 {
 
     // Primer escenario
@@ -15,6 +14,7 @@ public class HU01 {
         DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCiudad(ciudad);
         Assert.assertNotEquals(tiempo.getUbicacion(), null);
         Assert.assertNotEquals(tiempo.getDia(), null);
+        Assert.assertNotEquals(tiempo.getHora(), null);
         Assert.assertNotEquals(tiempo.getTipoDia(), null);
     }
 

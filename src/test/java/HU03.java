@@ -14,10 +14,11 @@ public class HU03 {
     public void datosMeteorologicosProx3Dias_ciudadCorrecta() throws LocationNotFoundException {
         Ciudad ciudad = new Ciudad("Madrid");
         List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 3);
-        Assert.assertEquals(resultado.size(), 3);
+        Assert.assertEquals(24, resultado.size()); // 3 dias * 8 predicciones diarias de la api
         for(DatosMeteorologia tiempo : resultado) {
             Assert.assertNotEquals(tiempo.getUbicacion(), null);
             Assert.assertNotEquals(tiempo.getDia(), null);
+            Assert.assertNotEquals(tiempo.getHora(), null);
             Assert.assertNotEquals(tiempo.getTipoDia(), null);
         }
     }

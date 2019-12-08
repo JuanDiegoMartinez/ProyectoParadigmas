@@ -4,6 +4,7 @@ import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
+import Model.Datos.Ubicacion;
 import Model.Peticiones.PeticionesServidor;
 
 import java.util.List;
@@ -27,19 +28,24 @@ public class GestorPeticiones {
     }
 
     public static List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) throws LocationNotFoundException {
-        if(dias > 5)
-            throw new IllegalArgumentException("El máximo de días para realizar la previsión son 5.");
-        String resultado = PeticionesServidor.peticionCiudad5Dias(ciudad);
-        List<DatosMeteorologia> datosParser = JSONParser.convertirListaDatos(resultado);
-        return datosParser.subList(0, dias-1);
+        if(dias > 4 || dias <= 0)
+            throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
+        String outApi = PeticionesServidor.peticionCiudad5Dias(ciudad);
+        return procesarOutLista(ciudad, outApi, dias);
     }
 
     public static List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) throws LocationNotFoundException {
-        if(dias > 5)
-            throw new IllegalArgumentException("El máximo de días para realizar la previsión son 5.");
-        String resultado = PeticionesServidor.peticionCoordenadas5Dias(coordenadas);
-        List<DatosMeteorologia> datosParser = JSONParser.convertirListaDatos(resultado);
-        return datosParser.subList(0, dias-1);
+        if(dias > 4 || dias <= 0)
+            throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
+        String outApi = PeticionesServidor.peticionCoordenadas5Dias(coordenadas);
+        return procesarOutLista(coordenadas, outApi, dias);
+    }
+
+    private static List<DatosMeteorologia> procesarOutLista(Ubicacion ubicacion, String outApi, int dias) {
+        List<DatosMeteorologia> datosParser = JSONParser.convertirListaDatos(outApi);
+        for(DatosMeteorologia dm : datosParser)
+            dm.setUbicacion(ubicacion);
+        return datosParser.subList(0, dias*8);
     }
 
 }

@@ -16,25 +16,25 @@ public class PeticionesServidor {
     // Métodos estáticos que crean la url correspondiente según la petición
     public static String peticionCiudadHoy(Ciudad ciudad) throws LocationNotFoundException {
         String texto = baseUrl + "weather?q=" + ciudad.getNombre();
-        texto += "&appid=" + apiKey;
+        texto += "&units=metric&appid=" + apiKey;
         return obtenerTexto(texto);
     }
 
     public static String peticionCoordenadasHoy(Coordenadas coordenadas) throws LocationNotFoundException {
         String texto = baseUrl + "weather?lat=" + coordenadas.getLatitud() + "&lon=" + coordenadas.getLongitud();
-        texto += "&appid=" + apiKey;
+        texto += "&units=metric&appid=" + apiKey;
         return obtenerTexto(texto);
     }
 
     public static String peticionCiudad5Dias(Ciudad ciudad) throws LocationNotFoundException {
         String texto = baseUrl + "forecast?q=" + ciudad.getNombre();
-        texto += "&appid=" + apiKey;
+        texto += "&units=metric&appid=" + apiKey;
         return obtenerTexto(texto);
     }
 
     public static String peticionCoordenadas5Dias(Coordenadas coordenadas) throws LocationNotFoundException {
         String texto = baseUrl + "forecast?lat=" + coordenadas.getLatitud() + "&lon=" + coordenadas.getLongitud();
-        texto += "&appid=" + apiKey;
+        texto += "&units=metric&appid=" + apiKey;
         return obtenerTexto(texto);
     }
 

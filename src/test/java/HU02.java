@@ -14,6 +14,7 @@ public class HU02 {
         DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCoordenadas(coordenadas);
         Assert.assertNotEquals(tiempo.getUbicacion(), null);
         Assert.assertNotEquals(tiempo.getDia(), null);
+        Assert.assertNotEquals(tiempo.getHora(), null);
         Assert.assertNotEquals(tiempo.getTipoDia(), null);
     }
 
