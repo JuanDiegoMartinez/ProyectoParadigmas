@@ -4,14 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class JavaFXApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/Principal.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Principal.fxml"));
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -20,6 +19,5 @@ public class JavaFXApplication extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
-
 
 }
