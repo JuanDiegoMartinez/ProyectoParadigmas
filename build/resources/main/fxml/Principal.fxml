@@ -1,46 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="790.0" prefWidth="1185.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DatosVista">
-   <children>
-      <Text layoutX="27.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" wrappingWidth="133.99999648332596">
+<AnchorPane fx:id="panel" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../styles/miEstilo.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DatosVista">
+    <children>
+    <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../images/bg.jpg" />
+        </image>
+    </ImageView>
+        <Text fill="#e2e2e2" layoutX="343.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longitud:" wrappingWidth="121.99999988079071">
          <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="340.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ciudad:" />
-      <Text layoutX="343.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coordenadas:" />
-      <TextField fx:id="txtCiudad" layoutX="340.0" layoutY="70.0" />
-      <TextField fx:id="txtLongitud" layoutX="345.0" layoutY="150.0" />
-      <TextField fx:id="txtLatitud" layoutX="533.0" layoutY="150.0" />
-      <ButtonBar layoutX="54.0" layoutY="110.0" prefHeight="40.0" prefWidth="246.0" />
-      <Button fx:id="busquedaPrediccionCiudad" layoutX="904.0" layoutY="89.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" prefHeight="25.0" prefWidth="178.0" text="Consultar predicción ciudad" />
-      <Text layoutX="343.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="longitud" />
-      <Text layoutX="533.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="latitud" />
-      <Button fx:id="busquedaCoordHoy" layoutX="743.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" prefHeight="25.0" prefWidth="141.0" text="Tiempo coord hoy" />
-      <TableView fx:id="tblTiempo" layoutX="333.0" layoutY="401.0" prefHeight="355.0" prefWidth="806.0">
-        <columns>
-            <TableColumn fx:id="colHora" prefWidth="75.0" text="Hora" />
-            <TableColumn fx:id="colCielo" prefWidth="75.0" text="Cielo" />
-            <TableColumn fx:id="colHumedad" prefWidth="75.0" text="Humedad" />
-            <TableColumn fx:id="colViento" prefWidth="75.0" text="Viento" />
-            <TableColumn fx:id="colMaxima" prefWidth="75.0" text="Máxima" />
-            <TableColumn fx:id="colMinima" prefWidth="75.0" text="Mínima" />
-        </columns>
-      </TableView>
-      <ListView layoutX="27.0" layoutY="63.0" prefHeight="690.0" prefWidth="290.0" />
-      <Button fx:id="busquedaCiudadHoy" layoutX="743.0" layoutY="89.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" prefHeight="25.0" prefWidth="141.0" text="Tiempo ciudad hoy" />
-      <Button fx:id="busquedaPrediccionCoord" layoutX="904.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" prefHeight="25.0" prefWidth="178.0" text="Consultar predicción coord" />
-      <Text layoutX="547.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dias" />
-      <TextField fx:id="txtDias" layoutX="533.0" layoutY="70.0" />
-   </children>
+            <Font name="Serif Regular" size="12.0" />
+         </font></Text>
+        <Text fill="#e2e2e2" layoutX="533.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitud:">
+         <font>
+            <Font name="Serif Regular" size="12.0" />
+         </font></Text>
+        <Text fill="#e2e2e2" layoutX="32.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="289.99999165534973">
+         <font>
+            <Font name="Serif Regular" size="36.0" />
+         </font></Text>
+        <Text fill="#e2e2e2" layoutX="533.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dias:" wrappingWidth="44.62500214576721">
+         <font>
+            <Font name="SansSerif Regular" size="12.0" />
+         </font></Text>
+        <Text fill="#e2e2e2" layoutX="343.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ciudad:" />
+        <Text fill="#e2e2e2" layoutX="343.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coordenadas:">
+         <font>
+            <Font name="SansSerif Regular" size="12.0" />
+         </font></Text>
+        <TextField fx:id="txtCiudad" layoutX="343.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" /><!--onKeyPressed="#conTexto"-->
+        <TextField fx:id="txtLongitud" layoutX="343.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+        <TextField fx:id="txtLatitud" layoutX="533.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+        <Button fx:id="anadirFavoritos" layoutX="343.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" /><!--disable="true"-->
+        <Button fx:id="busquedaCoordHoy" layoutX="778.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo coord hoy" />
+        <Button fx:id="busquedaCiudadHoy" layoutX="778.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo ciudad hoy" />
+        <Button fx:id="busquedaPrediccionCoord" layoutX="954.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="37.0" prefWidth="178.0" text="Consultar predicción coord" />
+        <Button fx:id="busquedaPrediccionCiudad" layoutX="954.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="25.0" prefWidth="178.0" text="Consultar predicción ciudad" />
+      <TabPane layoutX="343.0" layoutY="374.0" prefHeight="380.0" prefWidth="801.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Dia 1">
+               <content>
+                    <TableView fx:id="tblTiempo" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                        <columns>
+                            <TableColumn fx:id="colHora" prefWidth="123.0" text="Hora" />
+                            <TableColumn fx:id="colCielo" prefWidth="110.0" text="Cielo" />
+                            <TableColumn fx:id="colHumedad" prefWidth="110.0" text="Humedad" />
+                            <TableColumn fx:id="colViento" prefWidth="110.0" text="Viento" />
+                            <TableColumn fx:id="colMaxima" prefWidth="110.0" text="Máxima" />
+                            <TableColumn fx:id="colMinima" prefWidth="110.0" text="Mínima" />
+                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                        </columns>
+                    </TableView>
+               </content>
+            </Tab>
+          <Tab text="Dia 2" />
+            <Tab text="Dia 3" />
+            <Tab text="Dia 4" />
+        </tabs>
+      </TabPane>
+        <TextField fx:id="txtDias" layoutX="533.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+        <Label fx:id="informador" layoutX="343.0" layoutY="236.0" prefHeight="40.0" prefWidth="485.0" />
+      <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="804.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="eliminarFavoritos" layoutX="539.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
+      <Pane fx:id="panel" layoutX="27.0" layoutY="70.0" prefHeight="684.0" prefWidth="290.0">
+         <children>
+              <ListView fx:id="listaFavoritos" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="684.0" prefWidth="290.0" />
+            <ScrollBar fx:id="scroll" layoutX="276.0" orientation="VERTICAL" prefHeight="684.0" prefWidth="14.0" />
+         </children>
+      </Pane>
+    </children>
 </AnchorPane>
