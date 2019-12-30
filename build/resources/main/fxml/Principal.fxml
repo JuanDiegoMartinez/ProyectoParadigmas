@@ -3,6 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -31,7 +33,7 @@
          <font>
             <Font name="Serif Regular" size="12.0" />
          </font></Text>
-        <Text fill="#e2e2e2" layoutX="32.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="289.99999165534973">
+        <Text fill="#e2e2e2" layoutX="-43.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="289.99999165534973">
          <font>
             <Font name="Serif Regular" size="36.0" />
          </font></Text>
@@ -47,6 +49,8 @@
         <TextField fx:id="txtCiudad" layoutX="343.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" /><!--onKeyPressed="#conTexto"-->
         <TextField fx:id="txtLongitud" layoutX="343.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
         <TextField fx:id="txtLatitud" layoutX="533.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+        <Button fx:id="subirFavorito" layoutX="27.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosSubir" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Subir posicion" />
+        <Button fx:id="bajarFavorito" layoutX="176.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosBajar" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Bajar posicion" />
         <Button fx:id="anadirFavoritos" layoutX="343.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" /><!--disable="true"-->
         <Button fx:id="busquedaCoordHoy" layoutX="778.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo coord hoy" />
         <Button fx:id="busquedaCiudadHoy" layoutX="778.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo ciudad hoy" />
@@ -78,11 +82,20 @@
         <Label fx:id="informador" layoutX="343.0" layoutY="236.0" prefHeight="40.0" prefWidth="485.0" />
       <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="804.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="eliminarFavoritos" layoutX="539.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
-      <Pane fx:id="panel" layoutX="27.0" layoutY="70.0" prefHeight="684.0" prefWidth="290.0">
+      <Pane fx:id="panelFavoritos" layoutX="27.0" layoutY="70.0" prefHeight="639.0" prefWidth="290.0">
          <children>
-              <ListView fx:id="listaFavoritos" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="684.0" prefWidth="290.0" />
-            <ScrollBar fx:id="scroll" layoutX="276.0" orientation="VERTICAL" prefHeight="684.0" prefWidth="14.0" />
+             <ListView fx:id="listaFavoritos" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="637.0" prefWidth="290.0" />
+                <ScrollBar fx:id="scroll" layoutX="276.0" orientation="VERTICAL" prefHeight="637.0" prefWidth="14.0" />
          </children>
       </Pane>
+          <MenuButton id="ordenarFavoritos" fx:id="ordenarFavoritos" layoutX="176.0" layoutY="33.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="141.0" stylesheets="@../styles/miEstilo.css" text="Ordenar favoritos" textFill="#4b8ede">
+              <items>
+                  <MenuItem fx:id="ordenarFavoritosAsc" mnemonicParsing="false" onAction="#ordenarFavoritosAsc" text="Ordenar ascendentemente" />
+                  <MenuItem fx:id="ordenarFavoritosDes" mnemonicParsing="false" onAction="#ordenarFavoritosDes" text="Ordenar descendetemente" />
+              </items>
+         <font>
+            <Font name="Serif Regular" size="12.0" />
+         </font>
+      </MenuButton>
     </children>
 </AnchorPane>

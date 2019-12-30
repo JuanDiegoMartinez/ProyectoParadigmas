@@ -20,14 +20,6 @@ public class JavaFXApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-        /*stage.getIcons().add(new Image("Resources/images/icon.png"));
-        stage.setScene(new Scene(root, 1050, 670));
-        stage.getScene().getStylesheets().addAll(getClass().getResource("Resources/styles/style.css").toExternalForm());
-        stage.show();
-        stage.setResizable(false);
-        stage.sizeToScene();*/
-
     public static void main(String[] args) {
         launch(args);
     }
