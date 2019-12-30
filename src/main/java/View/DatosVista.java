@@ -35,7 +35,7 @@ public class DatosVista implements Initializable {
     @FXML
     private Label informador;
     @FXML
-    private Button busquedaCiudadHoy,busquedaCoordHoy,busquedaPrediccionCiudad,busquedaPrediccionCoord, anadirFavoritos, subirFavorito,bajarFavorito;
+    private Button busquedaCiudadHoy,busquedaCoordHoy,busquedaPrediccionCiudad,busquedaPrediccionCoord, anadirFavoritos, subirFavorito,bajarFavorito,modificarTag;
     @FXML
     ImageView imgCielo;
     @FXML
@@ -89,6 +89,9 @@ public class DatosVista implements Initializable {
             Ciudad ciudad = new Ciudad(this.txtCiudad.getText());
             try {                                                                   // pide los datos y actualiza base.
                 DatosMeteorologia resultado = Controller.GestorPeticiones.obtenerTiempoHoyCiudad(ciudad);
+                if(resultado==null){
+                    informador.setText("Servidor no disponible");//
+                }
                 listaTiempoActual.put(ciudad.toString(), resultado);
                 ObservableList<DatosMeteorologia> listaAux = FXCollections.observableArrayList();
                 listaAux.add(listaTiempoActual.get(ciudad.toString()));
@@ -228,6 +231,7 @@ public class DatosVista implements Initializable {
             favoritos.set(indexSeleccionado - 1, seleccionado);
             favoritos.set(indexSeleccionado, aux);
             listaFavoritos.setItems(favoritos);
+            listaFavoritos.getSelectionModel().select(seleccionado);
         }
     }
     //baja 1 posicion el objeto seleccionado en la Listview
@@ -243,6 +247,7 @@ public class DatosVista implements Initializable {
             favoritos.set(indexSeleccionado + 1, seleccionado);
             favoritos.set(indexSeleccionado, aux);
             listaFavoritos.setItems(favoritos);
+            listaFavoritos.getSelectionModel().select(seleccionado);
         }
     }
     //elimina el objeto seleccionado en la Listview
@@ -251,6 +256,9 @@ public class DatosVista implements Initializable {
         if(seleccionado==null) {
             informador.setText("No tienes ningun favorito seleccionado, selecciona uno.");
         }else{
+            if(alias.containsKey(seleccionado)){
+                alias.remove(seleccionado);
+            }
             favoritos.remove(seleccionado);
             listaFavoritos.setItems(favoritos);
         }
@@ -262,6 +270,45 @@ public class DatosVista implements Initializable {
     //ordena la Listview por orden descendente.
     public void ordenarFavoritosDes(ActionEvent actionEvent) {
         FXCollections.reverse(favoritos);
+    }
+    public void modificarTag(ActionEvent actionEvent) {
+        String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
+        if(alias.containsKey(seleccionado)){ // ya es un tag
+            Tag tag = TagBox.display();
+            if(tag.isTag() && !alias.containsKey(tag.getTag())){                           //era ya un tag si quiere cambiarlo y no esta el alias usado
+                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
+                listaFavoritos.setItems(favoritos);
+                String valor = alias.get(seleccionado);
+                alias.remove(seleccionado);
+                alias.put(tag.getTag(), valor);
+                informador.setText("Alias cambiado, "+seleccionado+" paso a ser "+tag.getTag());
+            }else if(tag.isTag() && alias.containsKey(tag.getTag())){
+                informador.setText("El alias "+tag.getTag()+ " ya esta en uso");
+            }
+        }else if(listaPredicciones.containsKey(seleccionado) && listaPredicciones.get(seleccionado).get(0).getUbicacion() instanceof Coordenadas){
+            Tag tag = TagBox.display();
+            if(tag.isTag() && !alias.containsKey(tag.getTag())){                           //es una coordenada si quiere cambiarlo y no esta el alias usado
+                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
+                listaFavoritos.setItems(favoritos);
+                String valor = alias.get(seleccionado);
+                alias.remove(seleccionado);
+                alias.put(tag.getTag(), valor);
+                informador.setText("Alias cambiado, "+seleccionado+" paso a ser "+tag.getTag());
+            }
+        }else if(listaTiempoActual.containsKey(seleccionado) && listaTiempoActual.get(seleccionado).getUbicacion() instanceof Coordenadas) {
+            Tag tag = TagBox.display();
+            if (tag.isTag() && !alias.containsKey(tag.getTag())) {                           //es una coordenada si quiere cambiarlo y no esta el alias usado
+                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
+                listaFavoritos.setItems(favoritos);
+                String valor = alias.get(seleccionado);
+                alias.remove(seleccionado);
+                alias.put(tag.getTag(), valor);
+                informador.setText("Alias cambiado, " + seleccionado + " paso a ser " + tag.getTag());
+            }
+        }else{
+                informador.setText("No puedes poner tag a ciudades, ni usar tags repetidos.");
+        }
+
     }
 
 

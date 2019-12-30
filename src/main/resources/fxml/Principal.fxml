@@ -49,6 +49,7 @@
         <TextField fx:id="txtCiudad" layoutX="343.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" /><!--onKeyPressed="#conTexto"-->
         <TextField fx:id="txtLongitud" layoutX="343.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
         <TextField fx:id="txtLatitud" layoutX="533.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+        <Button fx:id="modificarTag" layoutX="343.0" layoutY="268.0" mnemonicParsing="false" onAction="#modificarTag" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Modificar Tag" />
         <Button fx:id="subirFavorito" layoutX="27.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosSubir" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Subir posicion" />
         <Button fx:id="bajarFavorito" layoutX="176.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosBajar" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Bajar posicion" />
         <Button fx:id="anadirFavoritos" layoutX="343.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" /><!--disable="true"-->
@@ -79,8 +80,8 @@
         </tabs>
       </TabPane>
         <TextField fx:id="txtDias" layoutX="533.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
-        <Label fx:id="informador" layoutX="343.0" layoutY="236.0" prefHeight="40.0" prefWidth="485.0" />
-      <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="804.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="informador" layoutX="343.0" layoutY="212.0" prefHeight="40.0" prefWidth="599.0" />
+      <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="870.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="eliminarFavoritos" layoutX="539.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
       <Pane fx:id="panelFavoritos" layoutX="27.0" layoutY="70.0" prefHeight="639.0" prefWidth="290.0">
          <children>
