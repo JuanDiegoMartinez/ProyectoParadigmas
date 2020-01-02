@@ -7,42 +7,42 @@ import javafx.geometry.*;
 
 public class TagBox {
     static String tag;
-    static boolean answer;
+    static boolean respuesta;
 
     public static Tag display() {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Añadir nuevo tag");
+        Stage ventana = new Stage();
+        ventana.initModality(Modality.APPLICATION_MODAL);
+        ventana.setTitle("Añadir nuevo tag");
 
-        window.setMinWidth(250);
+        ventana.setMinWidth(250);
         Label label = new Label();
         label.setText("Si no anades un tag a la coordenada, se anadira un tag por defecto.");
 
         TextField txtTag = new TextField();
-        Button yesButton = new Button("Aceptar");
-        Button noButton = new Button("Cancelar");
+        Button aceptarBoton = new Button("Aceptar");
+        Button cancelarBoton = new Button("Cancelar");
 
 
-        yesButton.setOnAction(e -> {
+        aceptarBoton.setOnAction(e -> {
             tag = txtTag.getText();
-            answer = true;
-            window.close();
+            respuesta = true;
+            ventana.close();
         });
-        noButton.setOnAction(e -> {
-            answer = false;
-            window.close();
+        cancelarBoton.setOnAction(e -> {
+            respuesta = false;
+            ventana.close();
         });
 
         VBox layout = new VBox(10);
 
         //añadir botones
-        layout.getChildren().addAll(label,txtTag, yesButton, noButton);
+        layout.getChildren().addAll(label,txtTag, aceptarBoton, cancelarBoton);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
+        ventana.setScene(scene);
+        ventana.showAndWait();
 
         //devolver resultado.
-        return new Tag(answer,tag);
+        return new Tag(respuesta,tag);
     }
 }

@@ -74,9 +74,48 @@
                     </TableView>
                </content>
             </Tab>
-          <Tab text="Dia 2" />
-            <Tab text="Dia 3" />
-            <Tab text="Dia 4" />
+          <Tab text="Dia 2">
+               <content>
+                  <TableView fx:id="tblTiempo1" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="colHora1" prefWidth="123.0" text="Hora" />
+                        <TableColumn fx:id="colCielo1" prefWidth="110.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad1" prefWidth="110.0" text="Humedad" />
+                        <TableColumn fx:id="colViento1" prefWidth="110.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima1" prefWidth="110.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima1" prefWidth="110.0" text="Mínima" />
+                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                     </columns>
+                  </TableView>
+               </content></Tab>
+            <Tab text="Dia 3">
+               <content>
+                  <TableView fx:id="tblTiempo2" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="colHora2" prefWidth="123.0" text="Hora" />
+                        <TableColumn fx:id="colCielo2" prefWidth="110.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad2" prefWidth="110.0" text="Humedad" />
+                        <TableColumn fx:id="colViento2" prefWidth="110.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima2" prefWidth="110.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima2" prefWidth="110.0" text="Mínima" />
+                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                     </columns>
+                  </TableView>
+               </content></Tab>
+            <Tab text="Dia 4">
+               <content>
+                  <TableView fx:id="tblTiempo3" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="colHora3" prefWidth="123.0" text="Hora" />
+                        <TableColumn fx:id="colCielo3" prefWidth="110.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad3" prefWidth="110.0" text="Humedad" />
+                        <TableColumn fx:id="colViento3" prefWidth="110.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima3" prefWidth="110.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima3" prefWidth="110.0" text="Mínima" />
+                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                     </columns>
+                  </TableView>
+               </content></Tab>
         </tabs>
       </TabPane>
         <TextField fx:id="txtDias" layoutX="533.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />

@@ -5,8 +5,6 @@ import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -19,10 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -41,15 +39,15 @@ public class DatosVista implements Initializable {
     @FXML
     private TextField txtCiudad,txtLatitud,txtLongitud, txtDias;
     @FXML
-    private TableView<DatosMeteorologia> tblTiempo;
+    private TableView<DatosMeteorologia> tblTiempo,tblTiempo1,tblTiempo2,tblTiempo3;
     @FXML
-    private TableColumn<DatosMeteorologia, LocalTime> colHora;
+    private TableColumn<DatosMeteorologia, LocalTime> colHora,colHora1,colHora2,colHora3;
     @FXML
-    private TableColumn<DatosMeteorologia, String> colCielo;
+    private TableColumn<DatosMeteorologia, String> colCielo,colCielo1,colCielo2,colCielo3;
     @FXML
-    private TableColumn<DatosMeteorologia, Double> colHumedad,colViento,colMaxima,colMinima;
+    private TableColumn<DatosMeteorologia, Double> colHumedad,colViento,colMaxima,colMinima,colHumedad1,colViento1,colMaxima1,colMinima1;
     @FXML
-    private TableColumn <String , Image> colFoto;
+    private TableColumn<DatosMeteorologia, Double> colHumedad2,colViento2,colMaxima2,colMinima2,colHumedad3,colViento3,colMaxima3,colMinima3;
     @FXML
     private ListView<String> listaFavoritos;
     @FXML
@@ -81,7 +79,26 @@ public class DatosVista implements Initializable {
         this.colViento.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("viento"));
         this.colMaxima.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMax"));
         this.colMinima.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMin"));
+        this.colHora1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, LocalTime>("hora"));
+        this.colCielo1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, String>("tipoDia"));
+        this.colHumedad1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("humedad"));
+        this.colViento1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("viento"));
+        this.colMaxima1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMax"));
+        this.colMinima1.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMin"));
+        this.colHora2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, LocalTime>("hora"));
+        this.colCielo2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, String>("tipoDia"));
+        this.colHumedad2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("humedad"));
+        this.colViento2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("viento"));
+        this.colMaxima2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMax"));
+        this.colMinima2.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMin"));
+        this.colHora3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, LocalTime>("hora"));
+        this.colCielo3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, String>("tipoDia"));
+        this.colHumedad3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("humedad"));
+        this.colViento3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("viento"));
+        this.colMaxima3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMax"));
+        this.colMinima3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMin"));
     }
+
     //consulta el tiempo de un dia en una ciudad
     @FXML
     public void vistaCiudadHoy(ActionEvent event) throws LocationNotFoundException {
@@ -134,8 +151,7 @@ public class DatosVista implements Initializable {
         ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
         listaAux.addAll(resultado);
         listaPredicciones.put(ciudad.toString(), listaAux);
-        tblTiempo.setItems(listaAux);
-        informador.setText("El tiempo en "+resultado.get(0).getUbicacion().toString()+":");
+        mostrarPorDias(listaAux);
     }
     //consulta el tiempo de una prediccion en una coordenada de 1 a 4 dias
     public void vistaDiasCoordenadas(ActionEvent event) throws LocationNotFoundException, ActionPerformedException {
@@ -154,8 +170,7 @@ public class DatosVista implements Initializable {
         ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
         listaAux.addAll(resultado);
         listaPredicciones.put(coordenadasTexto, listaAux);
-        tblTiempo.setItems(listaAux);
-        informador.setText("El tiempo en "+resultado.get(0).getUbicacion().toString()+":");
+        mostrarPorDias(listaAux);
     }
 
     //añade el objeto que se encuentra en la tableview a favoritos (Listview).
@@ -199,22 +214,18 @@ public class DatosVista implements Initializable {
         }else if(alias.containsKey(seleccionado)) {                                          // es un alias
             if(listaPredicciones.containsKey(alias.get(seleccionado))){
                 listaAux = listaPredicciones.get(alias.get(seleccionado));
-                informador.setText("has seleccionado " + seleccionado);
-                tblTiempo.setItems(listaAux);
+                mostrarPorDias(listaAux);
             }else if(listaTiempoActual.containsKey(alias.get(seleccionado))) {
                 listaAux.add(listaTiempoActual.get(alias.get(seleccionado)));
-                informador.setText("has seleccionado " + seleccionado);
-                tblTiempo.setItems(listaAux);
+                mostrarPorDias(listaAux);
             }
         }else if(listaPredicciones.containsKey(seleccionado)) {
             listaAux = listaPredicciones.get(seleccionado);
-            informador.setText("has seleccionado " + seleccionado);
-            tblTiempo.setItems(listaAux);
+            mostrarPorDias(listaAux);
 
         }else if(listaTiempoActual.containsKey(seleccionado)) {
             listaAux.add(listaTiempoActual.get(seleccionado));
-            informador.setText("has seleccionado " + seleccionado);
-            tblTiempo.setItems(listaAux);
+            mostrarPorDias(listaAux);
         }
 
     }
@@ -310,7 +321,43 @@ public class DatosVista implements Initializable {
         }
 
     }
+    public void mostrarPorDias(List<DatosMeteorologia> consulta){
+        int contador=0;
+        List<List<DatosMeteorologia>> resultado= new ArrayList<>();
+        List<DatosMeteorologia> lista1= new ArrayList<>();
+        List<DatosMeteorologia> lista2= new ArrayList<>();
+        List<DatosMeteorologia> lista3= new ArrayList<>();
+        List<DatosMeteorologia> lista4= new ArrayList<>();
+        resultado.add(lista1);
+        resultado.add(lista2);
+        resultado.add(lista3);
+        resultado.add(lista4);
 
+        for(DatosMeteorologia dato: consulta){
+            if (dato.getHora().toString().equals("00:00") && !dato.equals(consulta.get(0))) {
+                contador++;
+                resultado.get(contador).add(dato);
+
+            }else{
+                resultado.get(contador).add(dato);
+            }
+        }
+        ObservableList<DatosMeteorologia> listaAux1= FXCollections.observableArrayList();
+        ObservableList<DatosMeteorologia> listaAux2= FXCollections.observableArrayList();
+        ObservableList<DatosMeteorologia> listaAux3= FXCollections.observableArrayList();
+        ObservableList<DatosMeteorologia> listaAux4= FXCollections.observableArrayList();
+        listaAux1.addAll(lista1);
+        listaAux2.addAll(lista2);
+        listaAux3.addAll(lista1);
+        listaAux4.addAll(lista4);
+        tblTiempo.setItems(listaAux1);
+        tblTiempo1.setItems(listaAux2);
+        tblTiempo2.setItems(listaAux3);
+        tblTiempo3.setItems(listaAux4);
+        informador.setText("El tiempo en "+consulta.get(0).getUbicacion().toString()+":");
+
+        //informador.setText("El tiempo en "+consulta.get(0).getUbicacion().toString()+":");
+    }
 
     /*public void conTexto(ActionEvent event){
         apagaBoton = new Service<Void>() {
