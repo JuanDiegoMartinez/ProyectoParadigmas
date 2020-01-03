@@ -7,15 +7,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SistemaFacade {
 
-    //}
-
     //Obtener el estado del tiempo de hoy en una ciudad
     public static DatosMeteorologia obtenerTiempoHoyCiudad(Ciudad ciudad) {
         throw new UnsupportedOperationException();
     }
 
     //Obtener el estado del tiempo de hoy en unas coordenadas
-    public DatosMeteorologia obtenerTiempoHoyCoordenadas(double latitud, double longitud) {
     public static DatosMeteorologia obtenerTiempoHoyCoordenadas(Coordenadas coordenadas) {
         throw new UnsupportedOperationException();
     }
