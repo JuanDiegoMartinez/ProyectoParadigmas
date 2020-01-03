@@ -1,6 +1,6 @@
 import Controller.BBDD;
 import Excepciones.LocationNotFoundException;
-import Model.Datos.Ciudad;
+import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
 import Model.SistemaFacade;
 import org.junit.Assert;
@@ -13,14 +13,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HU05 {
+public class HU06 {
 
     //Primer escenario
     @Test
-    public void datosMeteorologiaBBDD_ciudadHoy() {
+    public void datosMeteorologiaBBDD_coordenadasHoy() {
 
         //Creamos la sentencia sql de insertar
-        String sql = "INSERT INTO Actual VALUES(?,?,'Despejado', 2, 3, 4, 2, 'Madrid', null, null)";
+        String sql = "INSERT INTO Actual VALUES(?,?,'Despejado', 2, 3, 4, 2, null, -4.324, 40.123)";
 
         try {
             //Obtenemos la conexión de la BBDD y preparamos la query
@@ -39,9 +39,9 @@ public class HU05 {
             stmt.setString(2, hora);
             stmt.executeUpdate();
 
-            //Creamos una nueva ciudad y llamamos al método a probar
-            Ciudad ciudad = new Ciudad("Madrid");
-            DatosMeteorologia tiempo = SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
+            //Creamos una nueva coordenada y llamamos al método a probar
+            Coordenadas coordenadas = new Coordenadas(-4.324, 40.123);
+            DatosMeteorologia tiempo = SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
 
             // Comprobar que se han inyectado los valores necesarios
             Assert.assertNotEquals(tiempo.getUbicacion(), null);
@@ -56,7 +56,7 @@ public class HU05 {
             Assert.assertFalse(tiempo.getViento() < 0);
 
             //Borramos la query insertada anteriormente
-            sql = "DELETE FROM Actual WHERE Nombre = 'Madrid'";
+            sql = "DELETE FROM Actual WHERE Latitud = -4.324 AND Longitud = 40.123";
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
 
@@ -67,9 +67,9 @@ public class HU05 {
 
     //Segundo escenario
     @Test
-    public void datosMeteorologiaBBDD_ciudadSinConexion() {
-        Ciudad ciudad = new Ciudad("Madrid");
-        SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
+    public void datosMeteorologiaBBDD_coordenadasSinConexion() {
+        Coordenadas coordenadas = new Coordenadas(-4.324, 40.123);
+        SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
     }
 
 }
