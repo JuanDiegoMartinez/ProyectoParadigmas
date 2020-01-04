@@ -60,14 +60,14 @@ public class HU06 {
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | LocationNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     //Segundo escenario
     @Test
-    public void datosMeteorologiaBBDD_coordenadasSinConexion() {
+    public void datosMeteorologiaBBDD_coordenadasSinConexion() throws LocationNotFoundException {
         Coordenadas coordenadas = new Coordenadas(-4.324, 40.123);
         SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
     }

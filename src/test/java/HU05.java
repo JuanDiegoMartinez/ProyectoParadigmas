@@ -60,14 +60,14 @@ public class HU05 {
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | LocationNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     //Segundo escenario
     @Test
-    public void datosMeteorologiaBBDD_ciudadSinConexion() {
+    public void datosMeteorologiaBBDD_ciudadSinConexion() throws LocationNotFoundException {
         Ciudad ciudad = new Ciudad("Madrid");
         SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
     }
