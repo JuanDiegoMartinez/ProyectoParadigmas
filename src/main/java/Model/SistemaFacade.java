@@ -6,7 +6,9 @@ import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
+import Model.Datos.Ubicacion;
 import Model.Peticiones.PeticionesFavoritos;
+import org.omg.CORBA.NO_IMPLEMENT;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
@@ -88,12 +90,28 @@ public class SistemaFacade {
     }
 
     //Añadir unas coordenadas a la lista de favoritos
-    public static boolean altaCoordenadasFavoritos(Coordenadas coordenadas) {
-        return PeticionesFavoritos.anadirCoordenadas(coordenadas);
+    public static boolean altaCoordenadasFavoritos(String etiqueta, Coordenadas coordenadas) {
+        throw new NotImplementedException();
+        //return PeticionesFavoritos.anadirCoordenadas(coordenadas);
     }
 
     //Borrar unas coordenadas a la lista de favoritos
     public static boolean bajaCoordenadasFavoritos(Coordenadas coordenadas) {
         return PeticionesFavoritos.borrarCoordenadas(coordenadas);
+    }
+
+    //Obtener la lista de favoritos
+    public static List<Ubicacion> obtenerListaFavoritos() {
+        throw new NotImplementedException();
+    }
+
+    //Modificar etiqueta
+    public static boolean modificarEtiqueta(String etiqueta, Coordenadas coordenadas) {
+        throw new NotImplementedException();
+    }
+
+    //Geocodificación inversa
+    public static String obtenerEtiqueta(Coordenadas coordenadas) {
+        throw new NotImplementedException();
     }
 }
