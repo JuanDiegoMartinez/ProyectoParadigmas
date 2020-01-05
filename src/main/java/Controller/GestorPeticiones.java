@@ -28,14 +28,14 @@ public class GestorPeticiones {
     }
 
     public static List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) throws LocationNotFoundException {
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
         String outApi = PeticionesServidor.peticionCiudad5Dias(ciudad);
         return procesarOutLista(ciudad, outApi, dias);
     }
 
     public static List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) throws LocationNotFoundException {
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
         String outApi = PeticionesServidor.peticionCoordenadas5Dias(coordenadas);
         return procesarOutLista(coordenadas, outApi, dias);

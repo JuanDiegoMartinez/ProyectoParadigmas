@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -33,13 +32,9 @@
          <font>
             <Font name="Serif Regular" size="12.0" />
          </font></Text>
-        <Text fill="#e2e2e2" layoutX="-43.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="289.99999165534973">
+        <Text fill="#e2e2e2" layoutX="27.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="246.99999165534973">
          <font>
             <Font name="Serif Regular" size="36.0" />
-         </font></Text>
-        <Text fill="#e2e2e2" layoutX="533.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dias:" wrappingWidth="44.62500214576721">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
          </font></Text>
         <Text fill="#e2e2e2" layoutX="343.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ciudad:" />
         <Text fill="#e2e2e2" layoutX="343.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coordenadas:">
@@ -53,23 +48,22 @@
         <Button fx:id="subirFavorito" layoutX="27.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosSubir" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Subir posicion" />
         <Button fx:id="bajarFavorito" layoutX="176.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosBajar" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Bajar posicion" />
         <Button fx:id="anadirFavoritos" layoutX="343.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" /><!--disable="true"-->
-        <Button fx:id="busquedaCoordHoy" layoutX="778.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo coord hoy" />
-        <Button fx:id="busquedaCiudadHoy" layoutX="778.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Tiempo ciudad hoy" />
-        <Button fx:id="busquedaPrediccionCoord" layoutX="954.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="37.0" prefWidth="178.0" text="Consultar predicción coord" />
-        <Button fx:id="busquedaPrediccionCiudad" layoutX="954.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="25.0" prefWidth="178.0" text="Consultar predicción ciudad" />
+        <Button fx:id="busquedaCoordHoy" layoutX="719.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="39.0" prefWidth="209.0" text="Tiempo Coordenada" />
+        <Button fx:id="busquedaCiudadHoy" layoutX="719.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="39.0" prefWidth="209.0" text="Tiempo Ciudad" />
+        <Button fx:id="busquedaPrediccionCoord" layoutX="932.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Coordenada" />
+        <Button fx:id="busquedaPrediccionCiudad" layoutX="930.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Ciudad" />
       <TabPane layoutX="343.0" layoutY="374.0" prefHeight="380.0" prefWidth="801.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Dia 1">
                <content>
                     <TableView fx:id="tblTiempo" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                         <columns>
-                            <TableColumn fx:id="colHora" prefWidth="123.0" text="Hora" />
-                            <TableColumn fx:id="colCielo" prefWidth="110.0" text="Cielo" />
-                            <TableColumn fx:id="colHumedad" prefWidth="110.0" text="Humedad" />
-                            <TableColumn fx:id="colViento" prefWidth="110.0" text="Viento" />
-                            <TableColumn fx:id="colMaxima" prefWidth="110.0" text="Máxima" />
-                            <TableColumn fx:id="colMinima" prefWidth="110.0" text="Mínima" />
-                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                            <TableColumn fx:id="colHora" prefWidth="130.0" text="Hora" />
+                            <TableColumn fx:id="colCielo" prefWidth="130.0" text="Cielo" />
+                            <TableColumn fx:id="colHumedad" prefWidth="130.0" text="Humedad" />
+                            <TableColumn fx:id="colViento" prefWidth="130.0" text="Viento" />
+                            <TableColumn fx:id="colMaxima" prefWidth="130.0" text="Máxima" />
+                            <TableColumn fx:id="colMinima" prefWidth="130.0" text="Mínima" />
                         </columns>
                     </TableView>
                </content>
@@ -78,13 +72,12 @@
                <content>
                   <TableView fx:id="tblTiempo1" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
-                        <TableColumn fx:id="colHora1" prefWidth="123.0" text="Hora" />
-                        <TableColumn fx:id="colCielo1" prefWidth="110.0" text="Cielo" />
-                        <TableColumn fx:id="colHumedad1" prefWidth="110.0" text="Humedad" />
-                        <TableColumn fx:id="colViento1" prefWidth="110.0" text="Viento" />
-                        <TableColumn fx:id="colMaxima1" prefWidth="110.0" text="Máxima" />
-                        <TableColumn fx:id="colMinima1" prefWidth="110.0" text="Mínima" />
-                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                        <TableColumn fx:id="colHora1" prefWidth="130.0" text="Hora" />
+                        <TableColumn fx:id="colCielo1" prefWidth="130.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad1" prefWidth="130.0" text="Humedad" />
+                        <TableColumn fx:id="colViento1" prefWidth="130.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima1" prefWidth="130.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima1" prefWidth="130.0" text="Mínima" />
                      </columns>
                   </TableView>
                </content></Tab>
@@ -92,13 +85,12 @@
                <content>
                   <TableView fx:id="tblTiempo2" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
-                        <TableColumn fx:id="colHora2" prefWidth="123.0" text="Hora" />
-                        <TableColumn fx:id="colCielo2" prefWidth="110.0" text="Cielo" />
-                        <TableColumn fx:id="colHumedad2" prefWidth="110.0" text="Humedad" />
-                        <TableColumn fx:id="colViento2" prefWidth="110.0" text="Viento" />
-                        <TableColumn fx:id="colMaxima2" prefWidth="110.0" text="Máxima" />
-                        <TableColumn fx:id="colMinima2" prefWidth="110.0" text="Mínima" />
-                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                        <TableColumn fx:id="colHora2" prefWidth="130.0" text="Hora" />
+                        <TableColumn fx:id="colCielo2" prefWidth="130.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad2" prefWidth="130.0" text="Humedad" />
+                        <TableColumn fx:id="colViento2" prefWidth="130.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima2" prefWidth="130.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima2" prefWidth="130.0" text="Mínima" />
                      </columns>
                   </TableView>
                </content></Tab>
@@ -106,29 +98,26 @@
                <content>
                   <TableView fx:id="tblTiempo3" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
-                        <TableColumn fx:id="colHora3" prefWidth="123.0" text="Hora" />
-                        <TableColumn fx:id="colCielo3" prefWidth="110.0" text="Cielo" />
-                        <TableColumn fx:id="colHumedad3" prefWidth="110.0" text="Humedad" />
-                        <TableColumn fx:id="colViento3" prefWidth="110.0" text="Viento" />
-                        <TableColumn fx:id="colMaxima3" prefWidth="110.0" text="Máxima" />
-                        <TableColumn fx:id="colMinima3" prefWidth="110.0" text="Mínima" />
-                        <TableColumn id="colFoto" prefWidth="100.0" text="Foto" />
+                        <TableColumn fx:id="colHora3" prefWidth="130.0" text="Hora" />
+                        <TableColumn fx:id="colCielo3" prefWidth="130.0" text="Cielo" />
+                        <TableColumn fx:id="colHumedad3" prefWidth="130.0" text="Humedad" />
+                        <TableColumn fx:id="colViento3" prefWidth="130.0" text="Viento" />
+                        <TableColumn fx:id="colMaxima3" prefWidth="130.0" text="Máxima" />
+                        <TableColumn fx:id="colMinima3" prefWidth="130.0" text="Mínima" />
                      </columns>
                   </TableView>
                </content></Tab>
         </tabs>
       </TabPane>
-        <TextField fx:id="txtDias" layoutX="533.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
         <Label fx:id="informador" layoutX="343.0" layoutY="212.0" prefHeight="40.0" prefWidth="599.0" />
       <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="870.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="eliminarFavoritos" layoutX="539.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
       <Pane fx:id="panelFavoritos" layoutX="27.0" layoutY="70.0" prefHeight="639.0" prefWidth="290.0">
          <children>
              <ListView fx:id="listaFavoritos" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="637.0" prefWidth="290.0" />
-                <ScrollBar fx:id="scroll" layoutX="276.0" orientation="VERTICAL" prefHeight="637.0" prefWidth="14.0" />
          </children>
       </Pane>
-          <MenuButton id="ordenarFavoritos" fx:id="ordenarFavoritos" layoutX="176.0" layoutY="33.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="141.0" stylesheets="@../styles/miEstilo.css" text="Ordenar favoritos" textFill="#4b8ede">
+          <MenuButton id="ordenarFavoritos" fx:id="ordenarFavoritos" layoutX="279.0" layoutY="33.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="23.0" stylesheets="@../styles/miEstilo.css" textFill="#4b8ede">
               <items>
                   <MenuItem fx:id="ordenarFavoritosAsc" mnemonicParsing="false" onAction="#ordenarFavoritosAsc" text="Ordenar ascendentemente" />
                   <MenuItem fx:id="ordenarFavoritosDes" mnemonicParsing="false" onAction="#ordenarFavoritosDes" text="Ordenar descendetemente" />
