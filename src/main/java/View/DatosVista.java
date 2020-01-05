@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GestorPeticiones;
 import Excepciones.ActionPerformedException;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
@@ -87,9 +88,10 @@ public class DatosVista implements Initializable {
                 tblTiempo.setItems(listaAux);
                 tblTiempo.getSelectionModel().selectFirst();
                 informador.setText("El tiempo en " + resultado.getUbicacion().toString() + ":");
-                Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
+                Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia(),resultado.getHora().toString()));
                 imgCielo.setImage(imagen);
                 setearDias(listaAux);
+                limpiarTxtField(listaAux);
             }catch (LocationNotFoundException ex){
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
@@ -114,15 +116,16 @@ public class DatosVista implements Initializable {
                 tblTiempo.setItems(listaAux);
                 tblTiempo.getSelectionModel().selectFirst();
                 informador.setText("El tiempo en "+resultado.getUbicacion().toString()+":");
-                Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
+                Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia(),resultado.getHora().toString()));
                 imgCielo.setImage(imagen);
                 setearDias(listaAux);
+                limpiarTxtField(listaAux);
 
             }catch (LocationNotFoundException ex){
-                informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
+                informador.setText("La coordenada: "+"Latitud: "+txtLatitud.getText()+" Longitud: "+txtLongitud.getText()+ " no existe");//
             }
         }else{
-            informador.setText("Introduce coordeandas validias");
+            informador.setText("Introduce coordeandas validas");
         }
     }
     //consulta el tiempo de una prediccion en una ciudad
@@ -132,7 +135,7 @@ public class DatosVista implements Initializable {
         if (txtCiudad.getText().length()>1) {                                                    // te aseguras que haya informacion en el txtfield ciudad.
             Ciudad ciudad = new Ciudad(this.txtCiudad.getText());
             try {                                                                                // pide los datos y actualiza base.
-                List<DatosMeteorologia> resultado = Controller.GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 5);
+                List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 5);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
@@ -141,6 +144,7 @@ public class DatosVista implements Initializable {
                 listaPredicciones.put(ciudad.toString(), listaAux);
                 mostrarPorDias(listaAux);
                 setearDias(listaAux);
+                limpiarTxtField(listaAux);
             }catch (LocationNotFoundException ex){
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
@@ -163,11 +167,12 @@ public class DatosVista implements Initializable {
                 listaPredicciones.put(coordenadas.toString(), listaAux);
                 mostrarPorDias(listaAux);
                 setearDias(listaAux);
+                limpiarTxtField(listaAux);
             }catch (LocationNotFoundException ex){
-                informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
+                informador.setText("La coordenada: "+"Latitud: "+txtLatitud.getText()+" Longitud: "+txtLongitud.getText()+ " no existe");//
             }
         }else{
-            informador.setText("Introduce coordeandas validias");
+            informador.setText("Introduce coordeandas validas");
         }
     }
 
@@ -215,25 +220,30 @@ public class DatosVista implements Initializable {
                 listaAux = listaPredicciones.get(alias.get(seleccionado));
                 mostrarPorDias(listaAux);
                 setearDias(listaAux);
+                limpiarTxtField(listaAux);
             }else if(listaTiempoActual.containsKey(alias.get(seleccionado))) { //entonces es 1dia
                 listaAux.add(listaTiempoActual.get(alias.get(seleccionado)));
                 tblTiempo.setItems(listaAux);
                 tblTiempo.getSelectionModel().selectFirst();
                 listaTiempoActual.get(seleccionado).getTipoDia();
-                Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia()));
+                Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia(),listaTiempoActual.get(seleccionado).getHora().toString()));
                 imgCielo.setImage(imagen);
+                setearDias(listaAux);
+                limpiarTxtField(listaAux);
             }
         }else if(listaPredicciones.containsKey(seleccionado)) { //mira si es pronostico
             listaAux = listaPredicciones.get(seleccionado);
             mostrarPorDias(listaAux);
             setearDias(listaAux);
-
+            limpiarTxtField(listaAux);
         }else if(listaTiempoActual.containsKey(seleccionado)) { //entonces es 1dia
             listaAux.add(listaTiempoActual.get(seleccionado));
             tblTiempo.setItems(listaAux);
             tblTiempo.getSelectionModel().selectFirst();
-            Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia()));
+            Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia(),listaTiempoActual.get(seleccionado).getHora().toString()));
             imgCielo.setImage(imagen);
+            setearDias(listaAux);
+            limpiarTxtField(listaAux);
         }
 
     }
@@ -393,7 +403,7 @@ public class DatosVista implements Initializable {
         dia2.setText("");
         dia3.setText("");
         dia4.setText("");
-        tblTiempo.getSelectionModel().selectFirst();
+        dia1.getTabPane().getSelectionModel().select(0);
     }
     //setea en las tablaview en las solapitas el localdate de ese dato
     private void setearDias(List lista){
@@ -401,9 +411,9 @@ public class DatosVista implements Initializable {
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
         }else{
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
-            dia2.setText(tblTiempo.getItems().get(1).getDia().toString());
-            dia3.setText(tblTiempo.getItems().get(2).getDia().toString());
-            dia4.setText(tblTiempo.getItems().get(3).getDia().toString());
+            dia2.setText(tblTiempo1.getItems().get(1).getDia().toString());
+            dia3.setText(tblTiempo2.getItems().get(2).getDia().toString());
+            dia4.setText(tblTiempo3.getItems().get(3).getDia().toString());
         }
     }
     //carga el icono del cielo para las tableview
@@ -414,17 +424,21 @@ public class DatosVista implements Initializable {
         DatosMeteorologia dato2 = tblTiempo2.getSelectionModel().getSelectedItem();
         DatosMeteorologia dato3 = tblTiempo3.getSelectionModel().getSelectedItem();
         if(tblTiempo.isFocused()&& tblTiempo.getSelectionModel().getSelectedItem()!=null) {
-            Image imagen = new Image(SeleccionImagen.getImage(dato.getTipoDia()));
+            Image imagen = new Image(SeleccionImagen.getImage(dato.getTipoDia(),dato.getHora().toString()));
             imgCielo.setImage(imagen);
+            informador.setText("El tiempo en " + dato.getUbicacion().toString() + ":");
         }else if(tblTiempo1.isFocused()&& tblTiempo1.getSelectionModel().getSelectedItem()!=null) {
-            Image imagen = new Image(SeleccionImagen.getImage(dato1.getTipoDia()));
+            Image imagen = new Image(SeleccionImagen.getImage(dato1.getTipoDia(),dato1.getHora().toString()));
             imgCielo.setImage(imagen);
+            informador.setText("El tiempo en " + dato1.getUbicacion().toString() + ":");
         }else if(tblTiempo2.isFocused()&& tblTiempo2.getSelectionModel().getSelectedItem()!=null) {
-            Image imagen = new Image(SeleccionImagen.getImage(dato2.getTipoDia()));
+            Image imagen = new Image(SeleccionImagen.getImage(dato2.getTipoDia(),dato2.getHora().toString()));
             imgCielo.setImage(imagen);
+            informador.setText("El tiempo en " + dato2.getUbicacion().toString() + ":");
         }else if(tblTiempo3.isFocused()&& tblTiempo3.getSelectionModel().getSelectedItem()!=null) {
-            Image imagen = new Image(SeleccionImagen.getImage(dato3.getTipoDia()));
+            Image imagen = new Image(SeleccionImagen.getImage(dato3.getTipoDia(),dato3.getHora().toString()));
             imgCielo.setImage(imagen);
+            informador.setText("El tiempo en " + dato3.getUbicacion().toString() + ":");
         }else{
             informador.setText("Lista vacia");
         }
@@ -437,6 +451,22 @@ public class DatosVista implements Initializable {
             return true;
         }catch(NumberFormatException e){
             return false;
+        }
+    }
+    //limpia los txtfields de los tipos que no se usan
+    public void limpiarTxtField(List<DatosMeteorologia> lista){
+        if(lista.get(0).getUbicacion() instanceof  Coordenadas){
+            Double latitud = ((Coordenadas) lista.get(0).getUbicacion()).getLatitud();
+            Double longitud = ((Coordenadas) lista.get(0).getUbicacion()).getLongitud();
+            txtLongitud.setText(longitud.toString()); txtLatitud.setText(latitud.toString());
+            if(txtCiudad.getText().length()>0){
+                txtCiudad.clear();
+            }
+        }else{
+            txtCiudad.setText(lista.get(0).getUbicacion().toString());
+            if(txtLatitud.getText().length()>0 || txtLongitud.getText().length()>0){
+                txtLatitud.clear();txtLongitud.clear();
+            }
         }
     }
 }
