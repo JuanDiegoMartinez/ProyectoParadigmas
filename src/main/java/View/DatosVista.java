@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 public class DatosVista implements Initializable {
     @FXML
+    private Tab dia1,dia2,dia3,dia4;
+    @FXML
     private Label informador;
     @FXML
     private Button busquedaCiudadHoy,busquedaCoordHoy,busquedaPrediccionCiudad,busquedaPrediccionCoord, anadirFavoritos, subirFavorito,bajarFavorito,modificarTag;
@@ -86,6 +88,7 @@ public class DatosVista implements Initializable {
                 informador.setText("El tiempo en " + resultado.getUbicacion().toString() + ":");
                 Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
                 imgCielo.setImage(imagen);
+                setearDias(listaAux);
             }catch (LocationNotFoundException ex){
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
@@ -111,6 +114,7 @@ public class DatosVista implements Initializable {
                 informador.setText("El tiempo en "+resultado.getUbicacion().toString()+":");
                 Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
                 imgCielo.setImage(imagen);
+                setearDias(listaAux);
 
             }catch (LocationNotFoundException ex){
                 informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
@@ -134,6 +138,7 @@ public class DatosVista implements Initializable {
                 listaAux.addAll(resultado);
                 listaPredicciones.put(ciudad.toString(), listaAux);
                 mostrarPorDias(listaAux);
+                setearDias(listaAux);
             }catch (LocationNotFoundException ex){
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
@@ -155,6 +160,7 @@ public class DatosVista implements Initializable {
                 listaAux.addAll(resultado);
                 listaPredicciones.put(coordenadas.toString(), listaAux);
                 mostrarPorDias(listaAux);
+                setearDias(listaAux);
             }catch (LocationNotFoundException ex){
                 informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
             }
@@ -375,6 +381,20 @@ public class DatosVista implements Initializable {
         tblTiempo2.setItems(nueva);
         tblTiempo3.setItems(nueva);
         imgCielo.setImage(null);
+        dia1.setText("");
+        dia2.setText("");
+        dia3.setText("");
+        dia4.setText("");
+    }
+    private void setearDias(List lista){
+        if (lista.size()==1) {
+            dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
+        }else{
+            dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
+            dia2.setText(tblTiempo.getItems().get(1).getDia().toString());
+            dia3.setText(tblTiempo.getItems().get(2).getDia().toString());
+            dia4.setText(tblTiempo.getItems().get(3).getDia().toString());
+        }
     }
 }
 
