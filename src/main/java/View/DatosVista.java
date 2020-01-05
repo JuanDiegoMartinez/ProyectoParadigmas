@@ -34,7 +34,7 @@ public class DatosVista implements Initializable {
     @FXML
     ImageView imgCielo;
     @FXML
-    private TextField txtCiudad,txtLatitud,txtLongitud, txtDias;
+    private TextField txtCiudad,txtLatitud,txtLongitud;
     @FXML
     private TableView<DatosMeteorologia> tblTiempo,tblTiempo1,tblTiempo2,tblTiempo3;
     @FXML
@@ -284,6 +284,7 @@ public class DatosVista implements Initializable {
     public void ordenarFavoritosDes(ActionEvent actionEvent) {
         FXCollections.reverse(favoritos);
     }
+
     public void modificarTag(ActionEvent actionEvent) {
         String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
         if(alias.containsKey(seleccionado)){ // ya es un tag
@@ -394,6 +395,26 @@ public class DatosVista implements Initializable {
             dia2.setText(tblTiempo.getItems().get(1).getDia().toString());
             dia3.setText(tblTiempo.getItems().get(2).getDia().toString());
             dia4.setText(tblTiempo.getItems().get(3).getDia().toString());
+        }
+    }
+    @FXML
+    private void cargarImagenClick(MouseEvent event){
+        DatosMeteorologia dato = tblTiempo.getSelectionModel().getSelectedItem();
+        DatosMeteorologia dato1 = tblTiempo1.getSelectionModel().getSelectedItem();
+        DatosMeteorologia dato2 = tblTiempo2.getSelectionModel().getSelectedItem();
+        DatosMeteorologia dato3 = tblTiempo3.getSelectionModel().getSelectedItem();
+        if(tblTiempo.isFocused()) {
+            Image imagen = new Image(SeleccionImagen.getImage(dato.getTipoDia()));
+            imgCielo.setImage(imagen);
+        }else if(tblTiempo1.isFocused()) {
+            Image imagen = new Image(SeleccionImagen.getImage(dato1.getTipoDia()));
+            imgCielo.setImage(imagen);
+        }else if(tblTiempo2.isFocused()) {
+            Image imagen = new Image(SeleccionImagen.getImage(dato2.getTipoDia()));
+            imgCielo.setImage(imagen);
+        }else if(tblTiempo3.isFocused()) {
+            Image imagen = new Image(SeleccionImagen.getImage(dato3.getTipoDia()));
+            imgCielo.setImage(imagen);
         }
     }
 }

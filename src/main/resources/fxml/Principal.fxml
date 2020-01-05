@@ -56,7 +56,7 @@
         <tabs>
           <Tab fx:id="dia1" text=" ">
                <content>
-                    <TableView fx:id="tblTiempo" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                    <TableView fx:id="tblTiempo" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                         <columns>
                             <TableColumn fx:id="colHora" prefWidth="130.0" text="Hora" />
                             <TableColumn fx:id="colCielo" prefWidth="130.0" text="Cielo" />
@@ -70,7 +70,7 @@
             </Tab>
           <Tab fx:id="dia2" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo1" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView fx:id="tblTiempo1" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora1" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo1" prefWidth="130.0" text="Cielo" />
@@ -83,7 +83,7 @@
                </content></Tab>
             <Tab fx:id="dia3" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo2" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView fx:id="tblTiempo2" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora2" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo2" prefWidth="130.0" text="Cielo" />
@@ -96,7 +96,7 @@
                </content></Tab>
             <Tab fx:id="dia4" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo3" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView fx:id="tblTiempo3" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora3" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo3" prefWidth="130.0" text="Cielo" />
