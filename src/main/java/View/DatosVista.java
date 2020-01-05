@@ -94,14 +94,14 @@ public class DatosVista implements Initializable {
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
         }else{
-            informador.setText("para consultar el tiempo de una ciudad, introduce un valor en el campo ciudad.");
+            informador.setText("Introduce el nombre de una ciudad valida");
         }
     }
     //consulta el tiempo de un dia en una coordenada
     @FXML
     public void vistaCoordenadasHoy(ActionEvent event) throws LocationNotFoundException  {
         resetearTablas();
-        if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1) {                      // Compruebas que Latitud y longitud no estan vacios
+        if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1 && sonNumeros(txtLatitud.getText(),txtLongitud.getText())) {     // Compruebas que Latitud y longitud no estan vacios y son numeros
             Coordenadas coordenadas = new Coordenadas(Double.parseDouble(this.txtLatitud.getText()),  Double.parseDouble(this.txtLongitud.getText()));
             try {                                                                                       // pide los datos y actualiza base.
                 DatosMeteorologia resultado = Controller.GestorPeticiones.obtenerTiempoHoyCoordenadas(coordenadas);
@@ -122,7 +122,7 @@ public class DatosVista implements Initializable {
                 informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
             }
         }else{
-            informador.setText("para consultar el tiempo de una ciudad, introduce un valor en el campo ciudad.");
+            informador.setText("Introduce coordeandas validias");
         }
     }
     //consulta el tiempo de una prediccion en una ciudad
@@ -145,15 +145,15 @@ public class DatosVista implements Initializable {
                 informador.setText("La ciudad "+txtCiudad.getText()+" no encontrada");//
             }
         }else{
-            informador.setText("para consultar el tiempo de una ciudad, introduce un valor en el campo ciudad.");
+            informador.setText("Introduce el nombre de una ciudad valida");
         }
     }
     //consulta el tiempo de una prediccion en una coordenada
     public void vistaDiasCoordenadas(ActionEvent event) throws LocationNotFoundException, ActionPerformedException {
         resetearTablas();
-        if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1) {                  //Compruebas que Latitud y longitud no estan vacios
+        if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1 && sonNumeros(txtLatitud.getText(),txtLongitud.getText())) {       //Compruebas que Latitud y longitud no estan vacios y son numeros
             Coordenadas coordenadas = new Coordenadas(Double.parseDouble(this.txtLatitud.getText()),  Double.parseDouble(this.txtLongitud.getText()));
-            try {                                                                                   // pide los datos y actualiza base.
+            try {                                                                                                                         // pide los datos y actualiza base.
                 List<DatosMeteorologia> resultado = Controller.GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas,5);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
@@ -167,7 +167,7 @@ public class DatosVista implements Initializable {
                 informador.setText("La coordenada: "+"Latitud:"+txtLatitud.getText()+"Longitud:"+txtLongitud.getText()+ "no existe");//
             }
         }else{
-            informador.setText("para consultar el tiempo de una ciudad, introduce un valor en el campo ciudad.");
+            informador.setText("Introduce coordeandas validias");
         }
     }
 
@@ -427,6 +427,16 @@ public class DatosVista implements Initializable {
             imgCielo.setImage(imagen);
         }else{
             informador.setText("Lista vacia");
+        }
+    }
+    //comprueba que los inputs son numeros.
+    public boolean sonNumeros(String latitud, String longitud){
+        try{
+            Double.parseDouble(latitud);
+            Double.parseDouble(longitud);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
         }
     }
 }
