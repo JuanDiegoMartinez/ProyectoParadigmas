@@ -85,6 +85,7 @@ public class DatosVista implements Initializable {
                 ObservableList<DatosMeteorologia> listaAux = FXCollections.observableArrayList();
                 listaAux.add(listaTiempoActual.get(ciudad.toString()));
                 tblTiempo.setItems(listaAux);
+                tblTiempo.getSelectionModel().selectFirst();
                 informador.setText("El tiempo en " + resultado.getUbicacion().toString() + ":");
                 Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
                 imgCielo.setImage(imagen);
@@ -111,6 +112,7 @@ public class DatosVista implements Initializable {
                 ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
                 listaAux.add(listaTiempoActual.get(resultado.getUbicacion().toString()));
                 tblTiempo.setItems(listaAux);
+                tblTiempo.getSelectionModel().selectFirst();
                 informador.setText("El tiempo en "+resultado.getUbicacion().toString()+":");
                 Image imagen = new Image(SeleccionImagen.getImage(resultado.getTipoDia()));
                 imgCielo.setImage(imagen);
@@ -207,14 +209,16 @@ public class DatosVista implements Initializable {
         String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
         ObservableList<DatosMeteorologia> listaAux = FXCollections.observableArrayList();
         if(seleccionado ==null) {
-            informador.setText("Favoritos está vacia");
+            informador.setText("Favoritos esta vacio");
         }else if(alias.containsKey(seleccionado)) {          // es un alias
             if(listaPredicciones.containsKey(alias.get(seleccionado))){        //mira si es pronostico
                 listaAux = listaPredicciones.get(alias.get(seleccionado));
                 mostrarPorDias(listaAux);
+                setearDias(listaAux);
             }else if(listaTiempoActual.containsKey(alias.get(seleccionado))) { //entonces es 1dia
                 listaAux.add(listaTiempoActual.get(alias.get(seleccionado)));
                 tblTiempo.setItems(listaAux);
+                tblTiempo.getSelectionModel().selectFirst();
                 listaTiempoActual.get(seleccionado).getTipoDia();
                 Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia()));
                 imgCielo.setImage(imagen);
@@ -222,10 +226,12 @@ public class DatosVista implements Initializable {
         }else if(listaPredicciones.containsKey(seleccionado)) { //mira si es pronostico
             listaAux = listaPredicciones.get(seleccionado);
             mostrarPorDias(listaAux);
+            setearDias(listaAux);
 
         }else if(listaTiempoActual.containsKey(seleccionado)) { //entonces es 1dia
             listaAux.add(listaTiempoActual.get(seleccionado));
             tblTiempo.setItems(listaAux);
+            tblTiempo.getSelectionModel().selectFirst();
             Image imagen = new Image(SeleccionImagen.getImage(listaTiempoActual.get(seleccionado).getTipoDia()));
             imgCielo.setImage(imagen);
         }
@@ -348,7 +354,7 @@ public class DatosVista implements Initializable {
         informador.setText("El tiempo en "+consulta.get(0).getUbicacion().toString()+":");
 
     }
-    //inicia columnas de la tableView
+    //inicia columnas de las tableViews
     private void iniciarColumnas(){
         this.colHora.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, LocalTime>("hora"));
         this.colCielo.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, String>("tipoDia"));
@@ -375,6 +381,7 @@ public class DatosVista implements Initializable {
         this.colMaxima3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMax"));
         this.colMinima3.setCellValueFactory(new PropertyValueFactory<DatosMeteorologia, Double>("tempMin"));
     }
+    // restablece valores de las tablaview punteros, imagen de carga.
     private void resetearTablas(){
         ObservableList<DatosMeteorologia> nueva= FXCollections.observableArrayList();
         tblTiempo.setItems(nueva);
@@ -386,7 +393,9 @@ public class DatosVista implements Initializable {
         dia2.setText("");
         dia3.setText("");
         dia4.setText("");
+        tblTiempo.getSelectionModel().selectFirst();
     }
+    //setea en las tablaview en las solapitas el localdate de ese dato
     private void setearDias(List lista){
         if (lista.size()==1) {
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
@@ -397,24 +406,27 @@ public class DatosVista implements Initializable {
             dia4.setText(tblTiempo.getItems().get(3).getDia().toString());
         }
     }
+    //carga el icono del cielo para las tableview
     @FXML
     private void cargarImagenClick(MouseEvent event){
         DatosMeteorologia dato = tblTiempo.getSelectionModel().getSelectedItem();
         DatosMeteorologia dato1 = tblTiempo1.getSelectionModel().getSelectedItem();
         DatosMeteorologia dato2 = tblTiempo2.getSelectionModel().getSelectedItem();
         DatosMeteorologia dato3 = tblTiempo3.getSelectionModel().getSelectedItem();
-        if(tblTiempo.isFocused()) {
+        if(tblTiempo.isFocused()&& tblTiempo.getSelectionModel().getSelectedItem()!=null) {
             Image imagen = new Image(SeleccionImagen.getImage(dato.getTipoDia()));
             imgCielo.setImage(imagen);
-        }else if(tblTiempo1.isFocused()) {
+        }else if(tblTiempo1.isFocused()&& tblTiempo1.getSelectionModel().getSelectedItem()!=null) {
             Image imagen = new Image(SeleccionImagen.getImage(dato1.getTipoDia()));
             imgCielo.setImage(imagen);
-        }else if(tblTiempo2.isFocused()) {
+        }else if(tblTiempo2.isFocused()&& tblTiempo2.getSelectionModel().getSelectedItem()!=null) {
             Image imagen = new Image(SeleccionImagen.getImage(dato2.getTipoDia()));
             imgCielo.setImage(imagen);
-        }else if(tblTiempo3.isFocused()) {
+        }else if(tblTiempo3.isFocused()&& tblTiempo3.getSelectionModel().getSelectedItem()!=null) {
             Image imagen = new Image(SeleccionImagen.getImage(dato3.getTipoDia()));
             imgCielo.setImage(imagen);
+        }else{
+            informador.setText("Lista vacia");
         }
     }
 }
