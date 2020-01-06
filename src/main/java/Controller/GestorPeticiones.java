@@ -48,4 +48,10 @@ public class GestorPeticiones {
         return datosParser.subList(0, dias*8);
     }
 
+    public static String obtenerEtiqueta(Coordenadas coordenadas) throws LocationNotFoundException {
+        String outApi = PeticionesServidor.peticionCoordenadasHoy(coordenadas);
+        String resultado = JSONParser.convertirEtiqueta(outApi);
+        return resultado;
+    }
+
 }

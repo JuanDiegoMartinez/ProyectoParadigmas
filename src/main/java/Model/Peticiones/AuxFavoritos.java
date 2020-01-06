@@ -52,4 +52,27 @@ public class AuxFavoritos {
         }
         return false;
     }
+
+    public static boolean comprobarEtiqueta(String etiqueta) {
+
+        String sql = "SELECT Etiqueta FROM Favoritos WHERE LOWER(Etiqueta) = LOWER(?)";
+
+        try {
+            //Conexión a la base de datos y ejecución de query
+            Connection con = BBDD.getConn();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, etiqueta);
+            ResultSet rs = stmt.executeQuery();
+
+
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

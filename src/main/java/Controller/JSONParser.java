@@ -78,4 +78,10 @@ public class JSONParser {
         dm.setViento(actual.getJSONObject("wind").getDouble("speed"));
     }
 
+    public static String convertirEtiqueta(String json) {
+        JSONObject o = new JSONObject(json);
+        String eti = o.getString("name");
+        return eti;
+    }
+
 }

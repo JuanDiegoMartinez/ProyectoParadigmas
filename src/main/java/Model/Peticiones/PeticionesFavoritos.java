@@ -59,11 +59,17 @@ public class PeticionesFavoritos {
         return false;
     }
 
-    public static boolean anadirCoordenadas(Coordenadas coordenadas) {
+    public static boolean anadirCoordenadas(String etiqueta, Coordenadas coordenadas) {
 
         boolean estaC = AuxFavoritos.comprobarCoordenadas(coordenadas.getLatitud(), coordenadas.getLongitud());
 
-        if (! estaC) {
+        if (etiqueta == "") {
+            etiqueta = "(" + coordenadas.getLatitud() + ", " + coordenadas.getLongitud() + ")";
+        }
+
+        boolean estaE = AuxFavoritos.comprobarEtiqueta(etiqueta);
+
+        if (! estaC && ! estaE) {
 
             String sql = "INSERT INTO Favoritos VALUES(?, null, ?, ?)";
 
@@ -71,7 +77,7 @@ public class PeticionesFavoritos {
                 Connection con = BBDD.getConn();
                 PreparedStatement stmt = con.prepareStatement(sql);
 
-                stmt.setString(1, "");
+                stmt.setString(1, etiqueta);
                 stmt.setDouble(2, coordenadas.getLatitud());
                 stmt.setDouble(3, coordenadas.getLongitud());
                 stmt.executeUpdate();
