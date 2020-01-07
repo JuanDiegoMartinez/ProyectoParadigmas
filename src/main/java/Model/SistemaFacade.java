@@ -115,4 +115,9 @@ public class SistemaFacade {
     public static String obtenerEtiqueta(Coordenadas coordenadas) throws LocationNotFoundException {
         return GestorPeticiones.obtenerEtiqueta(coordenadas);
     }
+
+    //Ordenar lista de favoritos
+    public static void ordenar(List<Ubicacion> ubicaciones) {
+        throw new NotImplementedException();
+    }
 }
