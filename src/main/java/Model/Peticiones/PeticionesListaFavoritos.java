@@ -5,10 +5,7 @@ import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.Ubicacion;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +39,42 @@ public class PeticionesListaFavoritos {
             e.printStackTrace();
         }
         return favoritos;
+    }
+
+    public static void ordenar(List<Ubicacion> ubicaciones) {
+
+        String alter = "ALTER TABLE Favoritos RENAME TO Favoritos_old;";
+
+        String tabla = "CREATE TABLE Favoritos ("
+                + "    Etiqueta VARCHAR NOT NULL,\n"
+                + "    Nombre VARCHAR NULL,\n"
+                + "    Latitud DOUBLE NULL,\n"
+                + "    Longitud DOUBLE NULL\n"
+                + ");";
+
+        try {
+            Connection con = BBDD.getConn();
+            Statement stmt = con.createStatement();
+
+            stmt.execute(alter);
+
+            stmt.execute(tabla);
+
+            String sql = "INSERT INTO Favoritos(Etiqueta, Nombre, Latitud, Longitud) " +
+                    "SELECT Etiqueta, Nombre, Latitud, Longitud " +
+                    "FROM Favoritos_old WHERE LOWER(Etiqueta) = LOWER(?);";
+
+            for (int i = 0; i < ubicaciones.size(); i++) {
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, ubicaciones.get(i).getEtiqueta());
+                st.executeUpdate();
+            }
+
+            String drop = "DROP TABLE Favoritos_old;";
+            stmt.execute(drop);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

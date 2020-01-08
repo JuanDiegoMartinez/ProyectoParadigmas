@@ -118,6 +118,6 @@ public class SistemaFacade {
 
     //Ordenar lista de favoritos
     public static void ordenar(List<Ubicacion> ubicaciones) {
-        throw new NotImplementedException();
+        PeticionesListaFavoritos.ordenar(ubicaciones);
     }
 }
