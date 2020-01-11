@@ -6,6 +6,8 @@ import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
+import Model.Datos.Ubicacion;
+import Model.SistemaFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -17,8 +19,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +32,11 @@ import java.util.ResourceBundle;
 
 public class DatosVista implements Initializable {
     @FXML
+    private AnchorPane panel;
+    @FXML
     private Tab dia1,dia2,dia3,dia4;
+    @FXML
+    private TabPane tabPane;
     @FXML
     private Label informador;
     @FXML
@@ -69,6 +78,16 @@ public class DatosVista implements Initializable {
         ordenarFavoritos.getItems().addAll(ordenarFavoritosAsc,ordenarFavoritosDes);
         alias = new HashMap<>();
         iniciarColumnas();
+        tabPane.getTabs().remove(dia2);
+        tabPane.getTabs().remove(dia3);
+        tabPane.getTabs().remove(dia4);
+    }
+
+    public void requestCerrarAplicacion() {
+        panel.getScene().getWindow().setOnCloseRequest((WindowEvent event1) -> {
+            System.out.println("Cerrando aplicacion");
+            //SistemaFacade.ordenar();
+        });
     }
 
     //consulta el tiempo de un dia en una ciudad
@@ -98,6 +117,14 @@ public class DatosVista implements Initializable {
         }else{
             informador.setText("Introduce el nombre de una ciudad valida");
         }
+        if(tabPane.getTabs().size() == 4) {
+            tabPane.getTabs().remove(dia2);
+            tabPane.getTabs().remove(dia3);
+            tabPane.getTabs().remove(dia4);
+        }
+        else if(tabPane.getTabs().size() == 0) {
+            tabPane.getTabs().add(dia1);
+        }
     }
     //consulta el tiempo de un dia en una coordenada
     @FXML
@@ -110,7 +137,7 @@ public class DatosVista implements Initializable {
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
-                          listaTiempoActual.put(resultado.getUbicacion().toString(), resultado);        // cuando son coordenadas guardamos por latitud long
+                listaTiempoActual.put(resultado.getUbicacion().toString(), resultado);        // cuando son coordenadas guardamos por latitud long
                 ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
                 listaAux.add(listaTiempoActual.get(resultado.getUbicacion().toString()));
                 tblTiempo.setItems(listaAux);
@@ -126,6 +153,13 @@ public class DatosVista implements Initializable {
             }
         }else{
             informador.setText("Introduce coordeandas validas");
+        }
+        if(tabPane.getTabs().size() == 4) {
+            tabPane.getTabs().remove(dia2);
+            tabPane.getTabs().remove(dia3);
+            tabPane.getTabs().remove(dia4);
+        } else if(tabPane.getTabs().size() == 0) {
+            tabPane.getTabs().add(dia1);
         }
     }
     //consulta el tiempo de una prediccion en una ciudad
@@ -151,6 +185,16 @@ public class DatosVista implements Initializable {
         }else{
             informador.setText("Introduce el nombre de una ciudad valida");
         }
+        if(tabPane.getTabs().size() == 1) {
+            tabPane.getTabs().add(dia2);
+            tabPane.getTabs().add(dia3);
+            tabPane.getTabs().add(dia4);
+        } else if(tabPane.getTabs().size() == 0) {
+            tabPane.getTabs().add(dia1);
+            tabPane.getTabs().add(dia2);
+            tabPane.getTabs().add(dia3);
+            tabPane.getTabs().add(dia4);
+        }
     }
     //consulta el tiempo de una prediccion en una coordenada
     public void vistaDiasCoordenadas(ActionEvent event) throws LocationNotFoundException, ActionPerformedException {
@@ -173,6 +217,16 @@ public class DatosVista implements Initializable {
             }
         }else{
             informador.setText("Introduce coordeandas validas");
+        }
+        if(tabPane.getTabs().size() == 1) {
+            tabPane.getTabs().add(dia2);
+            tabPane.getTabs().add(dia3);
+            tabPane.getTabs().add(dia4);
+        } else if(tabPane.getTabs().size() == 0) {
+            tabPane.getTabs().add(dia1);
+            tabPane.getTabs().add(dia2);
+            tabPane.getTabs().add(dia3);
+            tabPane.getTabs().add(dia4);
         }
     }
 
@@ -340,29 +394,30 @@ public class DatosVista implements Initializable {
         }
 
     }
+
     public void mostrarPorDias(List<DatosMeteorologia> consulta){
         int contador=0;
         List<List<DatosMeteorologia>> resultado= new ArrayList<>();
-        for (int i=0; i<consulta.size(); i++){
-            resultado.add(new ArrayList<DatosMeteorologia>());
-        }
         for(DatosMeteorologia dato: consulta){
-            if (dato.getHora().toString().equals("00:00"))
+            if (dato.getHora().toString().equals("00:00")) {
+                resultado.add(new ArrayList<DatosMeteorologia>());
                 contador++;
+            }
             if(contador > 0 && contador < 5)
                 resultado.get(contador-1).add(dato);
         }
         ObservableList<DatosMeteorologia>[] lista = new ObservableList[4];
-        for (int i=0 ;i<4; i++){
+
+        for (int i=0 ;i<resultado.size()-1; i++){
             lista[i]= FXCollections.observableArrayList();
             lista[i].addAll(resultado.get(i));
         }
+
         tblTiempo.setItems(lista[0]);
         tblTiempo1.setItems(lista[1]);
         tblTiempo2.setItems(lista[2]);
         tblTiempo3.setItems(lista[3]);
         informador.setText("El tiempo en "+consulta.get(0).getUbicacion().toString()+":");
-
     }
     //inicia columnas de las tableViews
     private void iniciarColumnas(){
@@ -405,7 +460,7 @@ public class DatosVista implements Initializable {
         dia4.setText("");
         dia1.getTabPane().getSelectionModel().select(0);
     }
-    //setea en las tablaview en las solapitas el localdate de ese dato
+    //setea en las tablaview en las tab el localdate de ese dato
     private void setearDias(List lista){
         if (lista.size()==1) {
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
@@ -440,7 +495,7 @@ public class DatosVista implements Initializable {
             imgCielo.setImage(imagen);
             informador.setText("El tiempo en " + dato3.getUbicacion().toString() + ":");
         }else{
-            informador.setText("Lista vacia");
+            //informador.setText("Lista vacia");
         }
     }
     //comprueba que los inputs son numeros.
