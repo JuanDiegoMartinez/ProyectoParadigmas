@@ -19,44 +19,83 @@
 
 <AnchorPane fx:id="panel" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../styles/miEstilo.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DatosVista">
     <children>
-    <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
         <image>
             <Image url="@../images/bg.jpg" />
         </image>
     </ImageView>
-        <Text fill="#e2e2e2" layoutX="343.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longitud:" wrappingWidth="121.99999988079071">
-         <font>
-            <Font name="Serif Regular" size="12.0" />
-         </font></Text>
-        <Text fill="#e2e2e2" layoutX="533.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitud:">
-         <font>
-            <Font name="Serif Regular" size="12.0" />
-         </font></Text>
-        <Text fill="#e2e2e2" layoutX="27.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="246.99999165534973">
-         <font>
-            <Font name="Serif Regular" size="36.0" />
-         </font></Text>
-        <Text fill="#e2e2e2" layoutX="343.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ciudad:" />
-        <Text fill="#e2e2e2" layoutX="343.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coordenadas:">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Text>
-        <TextField fx:id="txtCiudad" layoutX="343.0" layoutY="70.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" /><!--onKeyPressed="#conTexto"-->
-        <TextField fx:id="txtLongitud" layoutX="343.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
-        <TextField fx:id="txtLatitud" layoutX="533.0" layoutY="154.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
-        <Button fx:id="modificarTag" layoutX="343.0" layoutY="268.0" mnemonicParsing="false" onAction="#modificarTag" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Modificar Tag" />
-        <Button fx:id="subirFavorito" layoutX="27.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosSubir" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Subir posicion" />
-        <Button fx:id="bajarFavorito" layoutX="176.0" layoutY="715.0" mnemonicParsing="false" onAction="#ordenarFavoritosBajar" opacity="0.7" prefHeight="25.0" prefWidth="141.0" text="Bajar posicion" />
-        <Button fx:id="anadirFavoritos" layoutX="343.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" /><!--disable="true"-->
-        <Button fx:id="busquedaCoordHoy" layoutX="719.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="39.0" prefWidth="209.0" text="Tiempo Coordenada" />
-        <Button fx:id="busquedaCiudadHoy" layoutX="719.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="39.0" prefWidth="209.0" text="Tiempo Ciudad" />
-        <Button fx:id="busquedaPrediccionCoord" layoutX="932.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Coordenada" />
-        <Button fx:id="busquedaPrediccionCiudad" layoutX="930.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Ciudad" />
-      <TabPane fx:id="tabPane" layoutX="343.0" layoutY="374.0" prefHeight="380.0" prefWidth="801.0" tabClosingPolicy="UNAVAILABLE">
+      <Pane layoutX="371.0" layoutY="28.0" prefHeight="100.0" prefWidth="800.0" styleClass="panel-background" />
+      <Pane layoutX="371.0" layoutY="28.0" prefHeight="100.0" prefWidth="800.0">
+         <children>
+              <Button fx:id="busquedaPrediccionCiudad" layoutX="557.0" layoutY="44.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="40.0" prefWidth="220.0" text="Prediccion" />
+              <Button fx:id="busquedaCiudadHoy" layoutX="324.0" layoutY="44.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="40.0" prefWidth="220.0" text="Tiempo Actual" />
+              <Text fill="#e2e2e2" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Búsqueda por ciudad">
+               <font>
+                  <Font name="Calibri" size="30.0" />
+               </font>
+            </Text>
+              <TextField fx:id="txtCiudad" layoutX="91.0" layoutY="49.0" opacity="0.7" prefHeight="30.0" prefWidth="180.0" />
+            <Text fill="#e2e2e2" layoutX="16.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ciudad:">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane layoutX="371.0" layoutY="139.0" prefHeight="125.0" prefWidth="800.0" styleClass="panel-background" />
+      <Pane layoutX="371.0" layoutY="139.0" prefHeight="125.0" prefWidth="800.0">
+         <children>
+              <Text fill="#e2e2e2" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Búsqueda por coordenadas">
+               <font>
+                  <Font name="Calibri" size="30.0" />
+               </font>
+            </Text>
+              <Text fill="#e2e2e2" layoutX="16.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Longitud:" wrappingWidth="71.99999833106995">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Text>
+              <Text fill="#e2e2e2" layoutX="171.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitud:">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Text><!--onKeyPressed="#conTexto"-->
+              <TextField fx:id="txtLongitud" layoutX="16.0" layoutY="71.0" opacity="0.7" prefHeight="30.0" prefWidth="100.0" />
+              <TextField fx:id="txtLatitud" layoutX="171.0" layoutY="71.0" opacity="0.7" prefHeight="30.0" prefWidth="100.0" /><!--disable="true"-->
+              <Button fx:id="busquedaCoordHoy" layoutX="324.0" layoutY="70.0" mnemonicParsing="false" onAction="#vistaCoordenadasHoy" opacity="0.7" prefHeight="40.0" prefWidth="220.0" text="Tiempo Actual" />
+              <Button fx:id="busquedaPrediccionCoord" layoutX="557.0" layoutY="70.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="40.0" prefWidth="220.0" text="Prediccion" />
+         </children>
+      </Pane>
+      <Pane prefHeight="800.0" prefWidth="330.0" styleClass="panel-background" stylesheets="@../styles/miEstilo.css" />
+      <Pane fx:id="panelFavoritos" prefHeight="800.0" prefWidth="330.0" stylesheets="@../styles/miEstilo.css">
+         <children>
+              <Text fill="#e2e2e2" layoutX="85.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos" textAlignment="CENTER" wrappingWidth="139.99999165534973">
+               <font>
+                  <Font name="Calibri" size="36.0" />
+               </font>
+            </Text>
+                <MenuButton id="ordenarFavoritos" fx:id="ordenarFavoritos" layoutX="240.0" layoutY="26.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="20.0" styleClass="desplegable-menu" stylesheets="@../styles/miEstilo.css" textFill="#4b8ede">
+                    <items>
+                        <MenuItem fx:id="ordenarFavoritosAsc" mnemonicParsing="false" onAction="#ordenarFavoritosAsc" text="Ordenar ascendentemente" />
+                        <MenuItem fx:id="ordenarFavoritosDes" mnemonicParsing="false" onAction="#ordenarFavoritosDes" text="Ordenar descendetemente" />
+                    </items>
+               <font>
+                  <Font name="Serif Regular" size="12.0" />
+               </font>
+            </MenuButton>
+             <ListView fx:id="listaFavoritos" layoutX="20.0" layoutY="69.0" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="637.0" prefWidth="290.0" />
+              <Button fx:id="subirFavorito" layoutX="25.0" layoutY="714.0" mnemonicParsing="false" onAction="#ordenarFavoritosSubir" opacity="0.7" prefHeight="25.0" prefWidth="130.0" text="Subir" />
+              <Button fx:id="bajarFavorito" layoutX="175.0" layoutY="714.0" mnemonicParsing="false" onAction="#ordenarFavoritosBajar" opacity="0.7" prefHeight="25.0" prefWidth="130.0" text="Bajar" />
+         </children>
+      </Pane>
+        <Button fx:id="modificarTag" layoutX="371.0" layoutY="332.0" mnemonicParsing="false" onAction="#modificarTag" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Modificar Tag" />
+        <Button fx:id="anadirFavoritos" layoutX="371.0" layoutY="372.0" mnemonicParsing="false" onAction="#vistaAnadirFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="180.0" text="Añadir favoritos" />
+      <Button fx:id="eliminarFavoritos" layoutX="567.0" layoutY="372.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
+      <TabPane fx:id="tabPane" layoutX="371.0" layoutY="421.0" prefHeight="352.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="dia1" text=" ">
                <content>
-                    <TableView fx:id="tblTiempo" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                    <TableView onMouseClicked="#cargarImagenClick" fx:id="tblTiempo" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                         <columns>
                             <TableColumn fx:id="colHora" prefWidth="130.0" text="Hora" />
                             <TableColumn fx:id="colCielo" prefWidth="130.0" text="Cielo" />
@@ -70,7 +109,7 @@
             </Tab>
           <Tab fx:id="dia2" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo1" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView onMouseClicked="#cargarImagenClick" fx:id="tblTiempo1" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora1" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo1" prefWidth="130.0" text="Cielo" />
@@ -83,7 +122,7 @@
                </content></Tab>
             <Tab fx:id="dia3" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo2" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView onMouseClicked="#cargarImagenClick" fx:id="tblTiempo2" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora2" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo2" prefWidth="130.0" text="Cielo" />
@@ -96,7 +135,7 @@
                </content></Tab>
             <Tab fx:id="dia4" text=" ">
                <content>
-                  <TableView fx:id="tblTiempo3" onMouseClicked="#cargarImagenClick" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
+                  <TableView onMouseClicked="#cargarImagenClick" fx:id="tblTiempo3" opacity="0.7" prefHeight="124.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="colHora3" prefWidth="130.0" text="Hora" />
                         <TableColumn fx:id="colCielo3" prefWidth="130.0" text="Cielo" />
@@ -109,22 +148,7 @@
                </content></Tab>
         </tabs>
       </TabPane>
-        <Label fx:id="informador" layoutX="343.0" layoutY="212.0" prefHeight="40.0" prefWidth="599.0" />
-      <ImageView fx:id="imgCielo" fitHeight="150.0" fitWidth="200.0" layoutX="870.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="eliminarFavoritos" layoutX="539.0" layoutY="308.0" mnemonicParsing="false" onAction="#vistaEliminarFavoritos" opacity="0.7" prefHeight="39.0" prefWidth="191.0" text="Eliminar favoritos" />
-      <Pane fx:id="panelFavoritos" layoutX="27.0" layoutY="70.0" prefHeight="639.0" prefWidth="290.0">
-         <children>
-             <ListView fx:id="listaFavoritos" onMouseClicked="#seleccionarFavoritos" opacity="0.7" prefHeight="637.0" prefWidth="290.0" />
-         </children>
-      </Pane>
-          <MenuButton id="ordenarFavoritos" fx:id="ordenarFavoritos" layoutX="279.0" layoutY="33.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="23.0" stylesheets="@../styles/miEstilo.css" textFill="#4b8ede">
-              <items>
-                  <MenuItem fx:id="ordenarFavoritosAsc" mnemonicParsing="false" onAction="#ordenarFavoritosAsc" text="Ordenar ascendentemente" />
-                  <MenuItem fx:id="ordenarFavoritosDes" mnemonicParsing="false" onAction="#ordenarFavoritosDes" text="Ordenar descendetemente" />
-              </items>
-         <font>
-            <Font name="Serif Regular" size="12.0" />
-         </font>
-      </MenuButton>
+      <Label fx:id="informador" layoutX="371.0" layoutY="277.0" prefHeight="40.0" prefWidth="599.0" />
+      <ImageView fx:id="imgCielo" fitHeight="141.0" fitWidth="180.0" layoutX="991.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" />
     </children>
 </AnchorPane>

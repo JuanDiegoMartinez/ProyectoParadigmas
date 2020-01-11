@@ -23,7 +23,11 @@ public class SeleccionImagen {
                 return "images/02d.png";
             case "cloudsn":
                 return "images/02n.png";
+            case "fogn":
+                return "images/niebla.png";
             case "fogd":
+                return "images/niebla.png";
+            case"mistn":
                 return "images/niebla.png";
             case"mistd":
                 return "images/niebla.png";
@@ -35,6 +39,8 @@ public class SeleccionImagen {
                 return "images/10n.png";
             case "rainn":
                 return "images/10n.png";
+            case "snown":
+                return "images/nieve.png";
             case "snowd":
                 return "images/nieve.png";
             default:
