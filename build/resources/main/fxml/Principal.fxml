@@ -52,7 +52,7 @@
         <Button fx:id="busquedaCiudadHoy" layoutX="719.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaCiudadHoy" opacity="0.7" prefHeight="39.0" prefWidth="209.0" text="Tiempo Ciudad" />
         <Button fx:id="busquedaPrediccionCoord" layoutX="932.0" layoutY="150.0" mnemonicParsing="false" onAction="#vistaDiasCoordenadas" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Coordenada" />
         <Button fx:id="busquedaPrediccionCiudad" layoutX="930.0" layoutY="67.0" mnemonicParsing="false" onAction="#vistaDiasCiudad" opacity="0.7" prefHeight="39.0" prefWidth="233.0" text="Prediccion Ciudad" />
-      <TabPane fx:id="tabPane" layoutX="343.0" layoutY="374.0" prefHeight="380.0" prefWidth="801.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="343.0" layoutY="374.0" prefHeight="380.0" prefWidth="801.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="dia1" text=" ">
                <content>
