@@ -10,11 +10,31 @@ public class Coordenadas extends Ubicacion {
         this.longitud = longitud;
     }
 
-    public double getLatitud() { return latitud; }
-    public double getLongitud() { return longitud; }
+    @Override
+    public String getNombre() {
+        return null;
+    }
 
-    public void setLatitud(double latitud) { this.latitud = latitud; }
-    public void setLongitud(double longitud) { this.longitud = longitud; }
+    @Override
+    public void setNombre(String nombre) {
+
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
 
     @Override
     public String toString() {

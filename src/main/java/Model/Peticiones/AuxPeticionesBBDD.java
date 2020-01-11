@@ -8,13 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class AuxPeticionesBBDD {
+public class AuxPeticionesBBDD implements InterfaceAuxPeticionesBBDD {
 
-    public static boolean comprobarFechayHoraCiudad(String ciudad) {
+    public boolean comprobarFechayHoraCiudad(String ciudad) {
 
-        String sql = "SELECT Fecha, Hora FROM Actual WHERE Nombre = ?";
+        String sql = "SELECT Fecha, Hora FROM Actual WHERE LOWER(Nombre) = LOWER(?)";
 
         try {
             //Conexión a la base de datos y ejecución de query
@@ -23,7 +24,9 @@ public class AuxPeticionesBBDD {
             stmt.setString(1, ciudad);
             ResultSet rs = stmt.executeQuery();
 
-            return comprobarFechayHora(rs);
+            if (rs.next()) {
+                return comprobarFechayHora(rs);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -31,7 +34,7 @@ public class AuxPeticionesBBDD {
         return false;
     }
 
-    public static boolean comprobarFechayHoraCoordenadas(double latitud, double longitud) {
+    public boolean comprobarFechayHoraCoordenadas(double latitud, double longitud) {
 
         String sql = "SELECT Fecha, Hora FROM Actual WHERE Latitud = ? AND Longitud = ?";
 
@@ -43,7 +46,9 @@ public class AuxPeticionesBBDD {
             stmt.setDouble(2, longitud);
             ResultSet rs = stmt.executeQuery();
 
-            return comprobarFechayHora(rs);
+            if(rs.next()) {
+                return comprobarFechayHora(rs);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,9 +56,9 @@ public class AuxPeticionesBBDD {
         return false;
     }
 
-    public static boolean comprobarFechaCiudad(String ciudad) {
+    public boolean comprobarFechaCiudad(String ciudad) {
 
-        String sql = "SELECT MIN(Fecha) AS fecha FROM Prevision WHERE Nombre = ?";
+        String sql = "SELECT MIN(Fecha) AS fecha FROM Prevision WHERE LOWER(Nombre) = LOWER(?)";
 
         try {
             //Conexión a la base de datos y ejecución de query
@@ -62,7 +67,9 @@ public class AuxPeticionesBBDD {
             stmt.setString(1, ciudad);
             ResultSet rs = stmt.executeQuery();
 
-            return comprobarFecha(rs);
+            if(rs.getString("fecha") != null) {
+                return comprobarFecha(rs);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,7 +77,7 @@ public class AuxPeticionesBBDD {
         return false;
     }
 
-    public static boolean comprobarFechaCoordenadas(double latitud, double longitud) {
+    public boolean comprobarFechaCoordenadas(double latitud, double longitud) {
 
         String sql = "SELECT MIN(Fecha) AS fecha FROM Prevision WHERE Latitud = ? AND Longitud = ?";
 
@@ -82,7 +89,9 @@ public class AuxPeticionesBBDD {
             stmt.setDouble(2, longitud);
             ResultSet rs = stmt.executeQuery();
 
-            return comprobarFecha(rs);
+            if(rs.getString("fecha") != null) {
+                return comprobarFecha(rs);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,7 +99,7 @@ public class AuxPeticionesBBDD {
         return false;
     }
 
-    public static boolean comprobarFechayHora(ResultSet rs) {
+    private boolean comprobarFechayHora(ResultSet rs) {
 
         try {
             //Fecha y hora actual
@@ -114,13 +123,18 @@ public class AuxPeticionesBBDD {
         return false;
     }
 
-    public static boolean comprobarFecha(ResultSet rs) {
+    private boolean comprobarFecha(ResultSet rs) {
 
         try {
             //Fecha actual
             Date f = new Date();
             DateFormat dateFormat = new SimpleDateFormat("MM-dd");
-            String fechaActual = dateFormat.format(f);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(f);
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date a = c.getTime();
+            String fechaActual = dateFormat.format(a);
 
             //Fecha de la consulta
             String fecha = rs.getString("fecha").substring(5,10);

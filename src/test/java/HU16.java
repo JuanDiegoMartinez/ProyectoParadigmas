@@ -49,7 +49,7 @@ public class HU16 {
                 }
             });
 
-            SistemaFacade.ordenar(lista);
+            new SistemaFacade().ordenar(lista);
             String sql = "SELECT Etiqueta FROM Favoritos";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

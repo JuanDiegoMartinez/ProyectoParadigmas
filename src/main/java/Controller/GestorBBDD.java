@@ -10,9 +10,17 @@ import java.util.List;
 
 // Clase encargada de realizar las peticiones y convertir el resultado de las peticiones en datos del modelo.
 // Utiliza la clase JSONParser para procesar los Strings recibidos.
-public class GestorBBDD {
+public class GestorBBDD implements InterfaceGestorBBDD {
 
-    public static DatosMeteorologia obtenerTiempoHoyCiudad(Ciudad ciudad) {
+    private Controller.BBDDParser BBDDParser;
+    private Model.Peticiones.PeticionesBBDD PeticionesBBDD;
+
+    public GestorBBDD() {
+        BBDDParser = new BBDDParser();
+        PeticionesBBDD = new PeticionesBBDD();
+    }
+
+    public DatosMeteorologia obtenerTiempoHoyCiudad(Ciudad ciudad) {
 
         ResultSet rs = PeticionesBBDD.bbddCiudadHoy(ciudad);
 
@@ -25,7 +33,8 @@ public class GestorBBDD {
         return resultado;
     }
 
-    public static DatosMeteorologia obtenerTiempoHoyCoordenadas(Coordenadas coordenadas) {
+    public DatosMeteorologia obtenerTiempoHoyCoordenadas(Coordenadas coordenadas) {
+
         ResultSet rs = PeticionesBBDD.bbddCoordenadasHoy(coordenadas);
 
         if (rs == null) {
@@ -37,7 +46,7 @@ public class GestorBBDD {
         return resultado;
     }
 
-    public static List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) {
+    public List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) {
 
         if(dias > 4 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
@@ -55,7 +64,7 @@ public class GestorBBDD {
         return resultado;
     }
 
-    public static List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) {
+    public List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) {
 
         if(dias > 4 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");

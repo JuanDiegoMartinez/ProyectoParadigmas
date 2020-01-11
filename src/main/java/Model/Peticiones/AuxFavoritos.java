@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public class AuxFavoritos {
 
-    public static boolean comprobarCiudad(String ciudad) {
+    public boolean comprobarCiudad(String ciudad) {
 
-        String sql = "SELECT Nombre FROM Favoritos WHERE Nombre = ?";
+        String sql = "SELECT Nombre FROM Favoritos WHERE LOWER(Nombre) = LOWER(?)";
 
         try {
             //Conexión a la base de datos y ejecución de query
@@ -20,7 +20,7 @@ public class AuxFavoritos {
             stmt.setString(1, ciudad);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.getString("Nombre") != null) {
+            if (rs.next()) {
                 return true;
             }
 
@@ -30,7 +30,7 @@ public class AuxFavoritos {
         return false;
     }
 
-    public static boolean comprobarCoordenadas(double latitud, double longitud) {
+    public boolean comprobarCoordenadas(double latitud, double longitud) {
 
         String sql = "SELECT Latitud, Longitud FROM Favoritos WHERE Latitud = ? AND Longitud = ?";
 
@@ -42,7 +42,7 @@ public class AuxFavoritos {
             stmt.setDouble(2, longitud);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.getDouble("Latitud") == latitud && rs.getDouble("Longitud") == longitud) {
+            if (rs.next()) {
                 return true;
             }
             return false;
@@ -53,7 +53,7 @@ public class AuxFavoritos {
         return false;
     }
 
-    public static boolean comprobarEtiqueta(String etiqueta) {
+    public boolean comprobarEtiqueta(String etiqueta) {
 
         String sql = "SELECT Etiqueta FROM Favoritos WHERE LOWER(Etiqueta) = LOWER(?)";
 

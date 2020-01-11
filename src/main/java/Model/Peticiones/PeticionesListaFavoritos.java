@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PeticionesListaFavoritos {
 
-    public static List<Ubicacion> obtenerFavoritos() {
+    public  List<Ubicacion> obtenerFavoritos() {
 
         List<Ubicacion> favoritos = new ArrayList<Ubicacion>();
         String sql = "SELECT * FROM Favoritos";
@@ -41,7 +41,7 @@ public class PeticionesListaFavoritos {
         return favoritos;
     }
 
-    public static void ordenar(List<Ubicacion> ubicaciones) {
+    public void ordenar(List<Ubicacion> ubicaciones) {
 
         String alter = "ALTER TABLE Favoritos RENAME TO Favoritos_old;";
 
@@ -61,8 +61,8 @@ public class PeticionesListaFavoritos {
             stmt.execute(tabla);
 
             String sql = "INSERT INTO Favoritos(Etiqueta, Nombre, Latitud, Longitud) " +
-                    "SELECT Etiqueta, Nombre, Latitud, Longitud " +
-                    "FROM Favoritos_old WHERE LOWER(Etiqueta) = LOWER(?);";
+                            "SELECT Etiqueta, Nombre, Latitud, Longitud " +
+                            "FROM Favoritos_old WHERE LOWER(Etiqueta) = LOWER(?);";
 
             for (int i = 0; i < ubicaciones.size(); i++) {
                 PreparedStatement st = con.prepareStatement(sql);

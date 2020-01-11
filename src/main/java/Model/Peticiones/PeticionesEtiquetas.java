@@ -9,7 +9,13 @@ import java.sql.SQLException;
 
 public class PeticionesEtiquetas {
 
-    public static boolean modificarEtiqueta(String etiqueta, Coordenadas coordenadas) {
+    private Model.Peticiones.AuxFavoritos AuxFavoritos;
+
+    public PeticionesEtiquetas() {
+        AuxFavoritos = new AuxFavoritos();
+    }
+
+    public boolean modificarEtiqueta(String etiqueta, Coordenadas coordenadas) {
 
         boolean estaVieja = AuxFavoritos.comprobarEtiqueta(coordenadas.getEtiqueta());
         boolean estaNueva = AuxFavoritos.comprobarEtiqueta(etiqueta);

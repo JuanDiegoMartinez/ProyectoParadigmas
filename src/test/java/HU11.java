@@ -32,7 +32,7 @@ public class HU11 {
             }
 
             //Obtenemos la lista de favoritos
-            List<Ubicacion> favoritos = SistemaFacade.obtenerListaFavoritos();
+            List<Ubicacion> favoritos = new SistemaFacade().obtenerListaFavoritos();
 
             //Método a probar
             for(int i = 0; i < lista.length; i++) {

@@ -36,7 +36,7 @@ public class HU13 {
 
             //Método a probar
             String etiqueta = "UJI";
-            Assert.assertEquals(true, SistemaFacade.modificarEtiqueta(etiqueta, cor[0]));
+            Assert.assertEquals(true, new SistemaFacade().modificarEtiqueta(etiqueta, cor[0]));
 
             //Borramos los datos en la BBDD
             lista[0] = "UJI";
@@ -79,7 +79,7 @@ public class HU13 {
 
             //Método a probar
             String etiqueta = "Trabajo";
-            Assert.assertEquals(false, SistemaFacade.modificarEtiqueta(etiqueta, cor[0]));
+            Assert.assertEquals(false, new SistemaFacade().modificarEtiqueta(etiqueta, cor[0]));
 
             //Borramos los datos en la BBDD
             for(int i = 0; i < lista.length; i++) {

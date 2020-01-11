@@ -1,7 +1,7 @@
-import Controller.GestorPeticiones;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
+import Model.SistemaFacade;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class HU02 {
     @Test
     public void datosMeteorologicoshoy_coordenadasCorrectas() throws LocationNotFoundException {
         Coordenadas coordenadas = new Coordenadas(39, -31);
-        DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCoordenadas(coordenadas);
+        DatosMeteorologia tiempo = new SistemaFacade().obtenerTiempoHoyCoordenadas(coordenadas);
 
         // Comprobar que se han inyectado los valores necesarios
         Assert.assertNotEquals(tiempo.getUbicacion(), null);
@@ -30,6 +30,6 @@ public class HU02 {
     @Test(expected = LocationNotFoundException.class)
     public void datosMeteorologicoshoy_coordenadasErroneas() throws LocationNotFoundException {
         Coordenadas coordenadas = new Coordenadas(121, -31);
-        DatosMeteorologia tiempo = GestorPeticiones.obtenerTiempoHoyCoordenadas(coordenadas);
+        DatosMeteorologia tiempo = new SistemaFacade().obtenerTiempoHoyCoordenadas(coordenadas);
     }
 }

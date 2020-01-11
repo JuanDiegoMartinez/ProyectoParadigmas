@@ -1,7 +1,7 @@
-import Controller.GestorPeticiones;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
+import Model.SistemaFacade;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class HU04 {
     @Test
     public void datosMeteorologicosProx3Dias_coordenadasCorrectas() throws LocationNotFoundException {
         Coordenadas coordenadas = new Coordenadas(25, -27);
-        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas, 3);
+        List<DatosMeteorologia> resultado = new SistemaFacade().obtenerTiempoXdiasCoordenadas(coordenadas, 3);
         Assert.assertEquals(24, resultado.size()); // 3 dias * 8 predicciones diarias de la api
         for(DatosMeteorologia tiempo : resultado) {
             // Comprobar que se han inyectado los valores necesarios
@@ -34,7 +34,7 @@ public class HU04 {
     @Test(expected = LocationNotFoundException.class)
     public void datosMeteorologicosProx3Dias_coordenadasErroneas() throws LocationNotFoundException {
         Coordenadas coordenadas = new Coordenadas(25, -197);
-        List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas, 3);
+        List<DatosMeteorologia> resultado = new SistemaFacade().obtenerTiempoXdiasCoordenadas(coordenadas, 3);
     }
 
 }

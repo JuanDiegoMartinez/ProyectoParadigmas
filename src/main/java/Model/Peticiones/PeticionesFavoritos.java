@@ -10,7 +10,13 @@ import java.sql.SQLException;
 
 public class PeticionesFavoritos {
 
-    public static boolean anadirCiudad(Ciudad ciudad) {
+    private Model.Peticiones.AuxFavoritos AuxFavoritos;
+
+    public PeticionesFavoritos() {
+        AuxFavoritos = new AuxFavoritos();
+    }
+
+    public boolean anadirCiudad(Ciudad ciudad) {
 
         boolean esta = AuxFavoritos.comprobarCiudad(ciudad.getNombre());
 
@@ -35,7 +41,7 @@ public class PeticionesFavoritos {
         return false;
     }
 
-    public static boolean borrarCiudad(Ciudad ciudad) {
+    public boolean borrarCiudad(Ciudad ciudad) {
 
         boolean esta = AuxFavoritos.comprobarCiudad(ciudad.getNombre());
 
@@ -59,7 +65,7 @@ public class PeticionesFavoritos {
         return false;
     }
 
-    public static boolean anadirCoordenadas(String etiqueta, Coordenadas coordenadas) {
+    public boolean anadirCoordenadas(String etiqueta, Coordenadas coordenadas) {
 
         boolean estaC = AuxFavoritos.comprobarCoordenadas(coordenadas.getLatitud(), coordenadas.getLongitud());
 
@@ -91,7 +97,7 @@ public class PeticionesFavoritos {
         return false;
     }
 
-    public static boolean borrarCoordenadas(Coordenadas coordenadas) {
+    public boolean borrarCoordenadas(Coordenadas coordenadas) {
 
         boolean esta = AuxFavoritos.comprobarCoordenadas(coordenadas.getLatitud(), coordenadas.getLongitud());
 

@@ -27,7 +27,7 @@ public class HU08 {
             Ciudad ciudad = new Ciudad("Valencia");
 
             //Método a probar
-            Assert.assertEquals(true,  SistemaFacade.bajaCiudadFavoritos(ciudad));
+            Assert.assertEquals(true,  new SistemaFacade().bajaCiudadFavoritos(ciudad));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,6 +42,6 @@ public class HU08 {
         Ciudad ciudad = new Ciudad("Estocolmo");
 
         //Método a probar
-        Assert.assertEquals(false,  SistemaFacade.bajaCiudadFavoritos(ciudad));
+        Assert.assertEquals(false,  new SistemaFacade().bajaCiudadFavoritos(ciudad));
     }
 }

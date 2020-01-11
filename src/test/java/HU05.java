@@ -1,10 +1,13 @@
 import Controller.BBDD;
+import Controller.GestorBBDD;
+import Controller.GestorPeticiones;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.DatosMeteorologia;
 import Model.SistemaFacade;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +44,7 @@ public class HU05 {
 
             //Creamos una nueva ciudad y llamamos al método a probar
             Ciudad ciudad = new Ciudad("Madrid");
-            DatosMeteorologia tiempo = SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
+            DatosMeteorologia tiempo = new SistemaFacade().obtenerTiempoHoyCiudad(ciudad);
 
             // Comprobar que se han inyectado los valores necesarios
             Assert.assertNotEquals(tiempo.getUbicacion(), null);
@@ -69,7 +72,13 @@ public class HU05 {
     @Test
     public void datosMeteorologiaBBDD_ciudadSinConexion() throws LocationNotFoundException {
         Ciudad ciudad = new Ciudad("Madrid");
-        SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
+        GestorBBDD g = Mockito.mock(GestorBBDD.class);
+        GestorPeticiones p = Mockito.mock(GestorPeticiones.class);
+        SistemaFacade s = new SistemaFacade(g, p);
+        Mockito.when(g.obtenerTiempoHoyCiudad(ciudad)).thenReturn(null);
+        Mockito.when(p.obtenerTiempoHoyCiudad(ciudad)).thenReturn(null);
+        DatosMeteorologia resultado = s.obtenerTiempoHoyCiudad(ciudad);
+        Assert.assertEquals(null, resultado);
     }
 
 }

@@ -18,7 +18,7 @@ public class HU09 {
         Coordenadas coordenadas = new Coordenadas(15.234, -2.454);
 
         //Método a probar
-        Assert.assertEquals(true,  SistemaFacade.altaCoordenadasFavoritos(coordenadas));
+        Assert.assertEquals(true,  new SistemaFacade().altaCoordenadasFavoritos("", coordenadas));
 
         //Borramos la coordenada insertada
         String sql = "DELETE FROM Favoritos WHERE Latitud = 15.234 AND Longitud = -2.454";
@@ -51,7 +51,7 @@ public class HU09 {
             Coordenadas coordenadas = new Coordenadas(15.234, -2.454);
 
             //Método a probar
-            Assert.assertEquals(false,  SistemaFacade.altaCoordenadasFavoritos(coordenadas));
+            Assert.assertEquals(false,  new SistemaFacade().altaCoordenadasFavoritos("", coordenadas));
 
             //Borramos los datos insertados en la BBDD
             sql = "DELETE FROM Favoritos WHERE Latitud = 15.234 AND Longitud = -2.454";

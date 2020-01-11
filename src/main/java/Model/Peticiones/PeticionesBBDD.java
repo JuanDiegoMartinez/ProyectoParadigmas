@@ -17,15 +17,25 @@ import java.util.Date;
 // Realiza la petición y devuelve el resultado como String sin procesar.
 public class PeticionesBBDD {
 
+    private InterfaceAuxPeticionesBBDD AuxPeticionesBBDD;
+
+    public PeticionesBBDD(InterfaceAuxPeticionesBBDD a) {
+        AuxPeticionesBBDD = a;
+    }
+
+    public PeticionesBBDD() {
+        AuxPeticionesBBDD = new AuxPeticionesBBDD();
+    }
+
     //Obtener los datos consultados de una ciudad
-    public static ResultSet bbddCiudadHoy(Ciudad ciudad) {
+    public ResultSet bbddCiudadHoy(Ciudad ciudad) {
 
         //Comprobar que la hora y la fecha son válidas
         boolean consultaValida = AuxPeticionesBBDD.comprobarFechayHoraCiudad(ciudad.getNombre());
 
         if (consultaValida) {
 
-            String sql = "SELECT Fecha, Hora, Cielo, Humedad, Viento, Maxima, Minima FROM Actual WHERE Nombre = ?";
+            String sql = "SELECT Fecha, Hora, Cielo, Humedad, Viento, Maxima, Minima FROM Actual WHERE LOWER(Nombre) = LOWER(?)";
 
             try {
                 Connection con = BBDD.getConn();
@@ -43,7 +53,7 @@ public class PeticionesBBDD {
         return null;
     }
 
-    public static ResultSet bbddCoordenadasHoy(Coordenadas coordenadas) {
+    public ResultSet bbddCoordenadasHoy(Coordenadas coordenadas) {
 
         //Comprobar que la hora y la fecha son válidas
         boolean consultaValida = AuxPeticionesBBDD.comprobarFechayHoraCoordenadas(coordenadas.getLatitud(), coordenadas.getLongitud());
@@ -68,14 +78,14 @@ public class PeticionesBBDD {
         return null;
     }
 
-    public static ResultSet bbddCiudadXdias(Ciudad ciudad, int dias) {
+    public ResultSet bbddCiudadXdias(Ciudad ciudad, int dias) {
 
         //Comprobar que la fecha es válida
         boolean consultaValida = AuxPeticionesBBDD.comprobarFechaCiudad(ciudad.getNombre());
 
         if (consultaValida) {
 
-            String sql = "SELECT Fecha, Hora, Cielo, Humedad, Viento, Maxima, Minima FROM Prevision WHERE Nombre = ? AND Fecha BETWEEN ? AND ?";
+            String sql = "SELECT Fecha, Hora, Cielo, Humedad, Viento, Maxima, Minima FROM Prevision WHERE LOWER(Nombre) = LOWER(?) AND Fecha BETWEEN ? AND ?";
 
             try {
                 Connection con = BBDD.getConn();
@@ -84,17 +94,23 @@ public class PeticionesBBDD {
 
                 Date f = new Date();
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String fecha = dateFormat.format(f);
-                stmt.setString(2, fecha);
 
                 Calendar c = Calendar.getInstance();
                 c.setTime(f);
-                c.add(Calendar.DAY_OF_YEAR, dias);
+                c.add(Calendar.DAY_OF_YEAR, 1);
                 Date a = c.getTime();
+                String fecha = dateFormat.format(a);
+                stmt.setString(2, fecha);
+
+                c = Calendar.getInstance();
+                c.setTime(f);
+                c.add(Calendar.DAY_OF_YEAR, dias);
+                a = c.getTime();
                 fecha = dateFormat.format(a);
                 stmt.setString(3, fecha);
 
                 ResultSet rs = stmt.executeQuery();
+
                 return rs;
 
             } catch (SQLException e) {
@@ -105,7 +121,7 @@ public class PeticionesBBDD {
         return null;
     }
 
-    public static ResultSet bbddCoordenadasXdias(Coordenadas coordenadas, int dias) {
+    public ResultSet bbddCoordenadasXdias(Coordenadas coordenadas, int dias) {
 
         //Comprobar que la fecha es válida
         boolean consultaValida = AuxPeticionesBBDD.comprobarFechaCoordenadas(coordenadas.getLatitud(), coordenadas.getLongitud());
@@ -122,13 +138,18 @@ public class PeticionesBBDD {
 
                 Date f = new Date();
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String fecha = dateFormat.format(f);
-                stmt.setString(3, fecha);
 
                 Calendar c = Calendar.getInstance();
                 c.setTime(f);
-                c.add(Calendar.DAY_OF_YEAR, dias);
+                c.add(Calendar.DAY_OF_YEAR, 1);
                 Date a = c.getTime();
+                String fecha = dateFormat.format(a);
+                stmt.setString(3, fecha);
+
+                c = Calendar.getInstance();
+                c.setTime(f);
+                c.add(Calendar.DAY_OF_YEAR, dias);
+                a = c.getTime();
                 fecha = dateFormat.format(a);
                 stmt.setString(4, fecha);
 

@@ -1,10 +1,13 @@
 import Controller.BBDD;
+import Controller.GestorBBDD;
+import Controller.GestorPeticiones;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Coordenadas;
 import Model.Datos.DatosMeteorologia;
 import Model.SistemaFacade;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +44,7 @@ public class HU06 {
 
             //Creamos una nueva coordenada y llamamos al método a probar
             Coordenadas coordenadas = new Coordenadas(-4.324, 40.123);
-            DatosMeteorologia tiempo = SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
+            DatosMeteorologia tiempo = new SistemaFacade().obtenerTiempoHoyCoordenadas(coordenadas);
 
             // Comprobar que se han inyectado los valores necesarios
             Assert.assertNotEquals(tiempo.getUbicacion(), null);
@@ -68,8 +71,14 @@ public class HU06 {
     //Segundo escenario
     @Test
     public void datosMeteorologiaBBDD_coordenadasSinConexion() throws LocationNotFoundException {
-        Coordenadas coordenadas = new Coordenadas(-4.324, 40.123);
-        SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
+        Coordenadas cor = new Coordenadas(23.32, 45.234);
+        GestorBBDD g = Mockito.mock(GestorBBDD.class);
+        GestorPeticiones p = Mockito.mock(GestorPeticiones.class);
+        SistemaFacade s = new SistemaFacade(g, p);
+        Mockito.when(g.obtenerTiempoHoyCoordenadas(cor)).thenReturn(null);
+        Mockito.when(p.obtenerTiempoHoyCoordenadas(cor)).thenReturn(null);
+        DatosMeteorologia resultado = s.obtenerTiempoHoyCoordenadas(cor);
+        Assert.assertEquals(null, resultado);
     }
 
 }

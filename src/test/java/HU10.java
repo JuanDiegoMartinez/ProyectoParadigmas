@@ -27,7 +27,7 @@ public class HU10 {
             Coordenadas coordenadas = new Coordenadas(15.234, -2.454);
 
             //Método a probar
-            Assert.assertEquals(true,  SistemaFacade.bajaCoordenadasFavoritos(coordenadas));
+            Assert.assertEquals(true,  new SistemaFacade().bajaCoordenadasFavoritos(coordenadas));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,6 +42,6 @@ public class HU10 {
         Coordenadas coordenadas = new Coordenadas(15.234, -2.454);
 
         //Método a probar
-        Assert.assertEquals(false,  SistemaFacade.bajaCoordenadasFavoritos(coordenadas));
+        Assert.assertEquals(false,  new SistemaFacade().bajaCoordenadasFavoritos(coordenadas));
     }
 }

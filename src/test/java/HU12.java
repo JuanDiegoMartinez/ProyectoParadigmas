@@ -23,7 +23,7 @@ public class HU12 {
             Coordenadas c = new Coordenadas(42.504, 1.519);
 
             //Método a probar
-            Assert.assertEquals(true, SistemaFacade.altaCoordenadasFavoritos(etiqueta, c));
+            Assert.assertEquals(true, new SistemaFacade().altaCoordenadasFavoritos(etiqueta, c));
 
             //Borrar los datos insertados
             String sql = "DELETE FROM Favoritos WHERE Etiqueta = 'Casa'";
@@ -58,7 +58,7 @@ public class HU12 {
             Coordenadas c = new Coordenadas(42.504, 1.519);
 
             //Método a probar
-            Assert.assertEquals(false, SistemaFacade.altaCoordenadasFavoritos(etiqueta, c));
+            Assert.assertEquals(false, new SistemaFacade().altaCoordenadasFavoritos(etiqueta, c));
 
             //Borrar los datos insertados
             sql = "DELETE FROM Favoritos WHERE Etiqueta = 'Trabajo'";

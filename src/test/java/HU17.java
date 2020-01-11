@@ -43,7 +43,7 @@ public class HU17 {
             }
 
             //Método a probar
-            SistemaFacade.ordenar(lista);
+            new SistemaFacade().ordenar(lista);
             String sql = "SELECT Etiqueta FROM Favoritos";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

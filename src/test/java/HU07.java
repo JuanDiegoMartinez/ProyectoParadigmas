@@ -18,7 +18,7 @@ public class HU07 {
         Ciudad ciudad = new Ciudad("Valencia");
 
         //Método a probar
-        Assert.assertEquals(true,  SistemaFacade.altaCiudadFavoritos(ciudad));
+        Assert.assertEquals(true,  new SistemaFacade().altaCiudadFavoritos(ciudad));
 
         //Borramos la ciudad insertada
         String sql = "DELETE FROM Favoritos WHERE Nombre = 'Valencia'";
@@ -51,7 +51,7 @@ public class HU07 {
             Ciudad ciudad = new Ciudad("Madrid");
 
             //Método a probar
-            Assert.assertEquals(false,  SistemaFacade.altaCiudadFavoritos(ciudad));
+            Assert.assertEquals(false,  new SistemaFacade().altaCiudadFavoritos(ciudad));
 
             //Borramos el insert anterior
             sql = "DELETE FROM Favoritos WHERE Nombre = 'Madrid'";

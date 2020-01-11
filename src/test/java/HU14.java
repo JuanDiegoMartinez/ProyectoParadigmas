@@ -15,6 +15,8 @@ public class HU14 {
     @Test
     public void etiquetaAutomatica() throws LocationNotFoundException {
 
+        SistemaFacade SistemaFacade = new SistemaFacade();
+
         //Obtenemos la etiqueta generada por geocodificación
         Coordenadas coordenadas = new Coordenadas(-3.702, 40.146);
         String a = SistemaFacade.obtenerEtiqueta(coordenadas);
@@ -37,8 +39,9 @@ public class HU14 {
     }
 
     //Segundo escenario
-    @Test
-    public void etiquetaAutomaticaError() {
-        //Hacer un mock
+    @Test(expected = LocationNotFoundException.class)
+    public void etiquetaAutomaticaError() throws LocationNotFoundException {
+        Coordenadas cor = new Coordenadas(200, 200);
+        String resultado = new SistemaFacade().obtenerEtiqueta(cor);
     }
 }

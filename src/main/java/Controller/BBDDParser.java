@@ -12,7 +12,7 @@ import java.util.List;
 //Clase para convertir las querys de la bbdd en DatosMeteorologia
 public class BBDDParser {
 
-    public static DatosMeteorologia convertirDatosUnicos(ResultSet rs) {
+    public DatosMeteorologia convertirDatosUnicos(ResultSet rs) {
 
         DatosMeteorologia datos = null;
 
@@ -25,7 +25,7 @@ public class BBDDParser {
             double maxima = rs.getDouble("Maxima");
             double minima = rs.getDouble("Minima");
 
-            datos = new DatosMeteorologia(null, fecha, hora, dia, humedad, viento, maxima, minima);
+            datos = new DatosMeteorologia(null, fecha, hora, dia, minima, maxima, humedad, viento);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class BBDDParser {
         return datos;
     }
 
-    public static List<DatosMeteorologia> convertirListaDatos(ResultSet rs) {
+    public List<DatosMeteorologia> convertirListaDatos(ResultSet rs) {
 
         List<DatosMeteorologia> datos = new ArrayList<DatosMeteorologia>();
 
@@ -48,7 +48,7 @@ public class BBDDParser {
                 double maxima = rs.getDouble("Maxima");
                 double minima = rs.getDouble("Minima");
 
-                DatosMeteorologia d = new DatosMeteorologia(null, fecha, hora, dia, humedad, viento, maxima, minima);
+                DatosMeteorologia d = new DatosMeteorologia(null, fecha, hora, dia, minima, maxima, humedad, viento);
                 datos.add(d);
             }
 
