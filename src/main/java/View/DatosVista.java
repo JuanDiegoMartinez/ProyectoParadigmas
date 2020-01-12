@@ -86,18 +86,9 @@ public class DatosVista implements Initializable {
 
         SistemaFacade = new SistemaFacade();
         //Obtener la lista de favoritos de la BBDD al iniciar el programa
-        obtenerFavoritos();
+        //obtenerFavoritos();
     }
-
-    private void obtenerFavoritos() {
-        List<Ubicacion> listaUbicaciones = SistemaFacade.obtenerListaFavoritos();
-
-        for (int i = 0; i < listaUbicaciones.size(); i++) {
-            favoritos.add(listaUbicaciones.get(i).getEtiqueta());
-            ubicaciones.put(listaUbicaciones.get(i).getEtiqueta(), listaUbicaciones.get(i));
-        }
-        listaFavoritos.setItems(favoritos);
-    }
+    
 
     public void requestCerrarAplicacion() {
         panel.getScene().getWindow().setOnCloseRequest((WindowEvent event1) -> {
@@ -249,50 +240,57 @@ public class DatosVista implements Initializable {
 
     //añade el objeto que se encuentra en la tableview a favoritos (Listview).
     public void vistaAnadirFavoritos(ActionEvent event) throws LocationNotFoundException {
-        ObservableList<DatosMeteorologia> tablaSeteada = tblTiempo.getItems();
 
-        if(tablaSeteada.get(0).getUbicacion().getNombre()!=null) {
-            Ciudad ciudad = new Ciudad(tablaSeteada.get(0).getUbicacion().getNombre());
-            ciudad.setEtiqueta(tablaSeteada.get(0).getUbicacion().getNombre());
-            boolean esta = SistemaFacade.altaCiudadFavoritos(ciudad);
-            if(esta){
-                favoritos.add(ciudad.getEtiqueta());
-                listaFavoritos.setItems(favoritos);
-                ubicaciones.put(ciudad.getEtiqueta(),  ciudad);
-            }else{
-                informador.setText("Ya se encuentra "+tablaSeteada.get(0).getUbicacion().toString()+ " como favorito");
-            }
-        }else{
-            String etiqueta = "(" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", " +  tablaSeteada.get(0).getUbicacion().getLongitud() + ")";
-            Coordenadas coordenada = new Coordenadas(tablaSeteada.get(0).getUbicacion().getLatitud(), tablaSeteada.get(0).getUbicacion().getLongitud());
+        try {
+            ObservableList<DatosMeteorologia> tablaSeteada = tblTiempo.getItems();
 
-            Tag tag = TagBox.display();
-
-            if (tag.getRespuesta() != 0) {
-
-                if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
-                    etiqueta = tag.getTag();
-                }
-
-                else if (tag.getRespuesta() == 2) {
-                    etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
-                }
-
-                boolean esta = SistemaFacade.altaCoordenadasFavoritos(etiqueta, coordenada);
-
+            if(tablaSeteada.get(0).getUbicacion().getNombre()!=null) {
+                Ciudad ciudad = new Ciudad(tablaSeteada.get(0).getUbicacion().getNombre());
+                ciudad.setEtiqueta(tablaSeteada.get(0).getUbicacion().getNombre());
+                boolean esta = SistemaFacade.altaCiudadFavoritos(ciudad);
                 if(esta){
-
-                    coordenada.setEtiqueta(etiqueta);
-                    favoritos.add(coordenada.getEtiqueta());
+                    favoritos.add(ciudad.getEtiqueta());
                     listaFavoritos.setItems(favoritos);
-                    ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
-
+                    ubicaciones.put(ciudad.getEtiqueta(),  ciudad);
                 }else{
-                    informador.setText("Ya se encuentran las coordenadas: ("+tablaSeteada.get(0).getUbicacion().getLatitud()+", "
-                            +tablaSeteada.get(0).getUbicacion().getLongitud()+") como favorito");
+                    informador.setText("Ya se encuentra "+tablaSeteada.get(0).getUbicacion().toString()+ " como favorito");
+                }
+            }else{
+                String etiqueta = "(" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", " +  tablaSeteada.get(0).getUbicacion().getLongitud() + ")";
+                Coordenadas coordenada = new Coordenadas(tablaSeteada.get(0).getUbicacion().getLatitud(), tablaSeteada.get(0).getUbicacion().getLongitud());
+
+                Tag tag = TagBox.display();
+
+                if (tag.getRespuesta() != 0) {
+
+                    if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
+                        etiqueta = tag.getTag();
+                    }
+
+                    else if (tag.getRespuesta() == 2) {
+                        etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
+                    }
+
+                    boolean esta = SistemaFacade.altaCoordenadasFavoritos(etiqueta, coordenada);
+
+                    if(esta){
+
+                        coordenada.setEtiqueta(etiqueta);
+                        favoritos.add(coordenada.getEtiqueta());
+                        listaFavoritos.setItems(favoritos);
+                        ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
+
+                    }else{
+                        informador.setText("Ya se encuentran las coordenadas: ("+tablaSeteada.get(0).getUbicacion().getLatitud()+", "
+                                +tablaSeteada.get(0).getUbicacion().getLongitud()+") como favorito");
+                    }
                 }
             }
+        } catch (Exception e) {
+            informador.setText("Antes de anadir a favoritos debes pedir la prevision.");
         }
+
+
     }
 
     //carga el objeto de la listView a la tableView
@@ -375,6 +373,9 @@ public class DatosVista implements Initializable {
 
         }else if(ubicaciones.containsKey(seleccionado)){
 
+            System.out.println(ubicaciones.containsKey(seleccionado));
+            System.out.println(seleccionado);
+
             if(ubicaciones.get(seleccionado).getNombre()!=null){
                 Ciudad ciudad = new Ciudad(ubicaciones.get(seleccionado).getNombre());
                 SistemaFacade.bajaCiudadFavoritos(ciudad);
@@ -399,42 +400,49 @@ public class DatosVista implements Initializable {
     }
 
     public void modificarTag(ActionEvent actionEvent) throws LocationNotFoundException {
-        String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
-        Ubicacion ubi = ubicaciones.get(seleccionado);
 
-        if (ubi.getNombre() != null) {
-            informador.setText("No puedes poner tag a ciudades.");
-        }
-        else {
-            String etiqueta = "(" + ubi.getLatitud() + ", " +  ubi.getLongitud() + ")";
-            Coordenadas coordenada = new Coordenadas(ubi.getLatitud(), ubi.getLongitud());
-            coordenada.setEtiqueta(seleccionado);
+        try {
+            String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
+            Ubicacion ubi = ubicaciones.get(seleccionado);
 
-            Tag tag = TagBox.display();
+            if (ubi.getNombre() != null) {
+                informador.setText("No puedes poner tag a ciudades.");
+            }
+            else {
+                String etiqueta = "(" + ubi.getLatitud() + ", " +  ubi.getLongitud() + ")";
+                Coordenadas coordenada = new Coordenadas(ubi.getLatitud(), ubi.getLongitud());
+                coordenada.setEtiqueta(seleccionado);
 
-            if (tag.getRespuesta() != 0) {
-                if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
-                    etiqueta = tag.getTag();
-                }
+                Tag tag = TagBox.display();
 
-                else if (tag.getRespuesta() == 2) {
-                    etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
-                }
+                if (tag.getRespuesta() != 0) {
+                    if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
+                        etiqueta = tag.getTag();
+                    }
 
-                boolean esta = SistemaFacade.modificarEtiqueta(etiqueta, coordenada);
+                    else if (tag.getRespuesta() == 2) {
+                        etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
+                    }
 
-                if (esta) {
-                    coordenada.setEtiqueta(etiqueta);
-                    favoritos.set(favoritos.indexOf(seleccionado), coordenada.getEtiqueta());
-                    listaFavoritos.setItems(favoritos);
-                    ubicaciones.remove(seleccionado);
-                    ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
-                }
-                else{
-                    informador.setText("Ya se encuentran la etiqueta: "+etiqueta+" como favorito");
+                    boolean esta = SistemaFacade.modificarEtiqueta(etiqueta, coordenada);
+
+                    if (esta) {
+                        coordenada.setEtiqueta(etiqueta);
+                        favoritos.set(favoritos.indexOf(seleccionado), coordenada.getEtiqueta());
+                        listaFavoritos.setItems(favoritos);
+                        ubicaciones.remove(seleccionado);
+                        ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
+                    }
+                    else{
+                        informador.setText("Ya se encuentran la etiqueta: "+etiqueta+" como favorito");
+                    }
                 }
             }
+        } catch (Exception e) {
+            informador.setText("No has seleccionado ningun favorito.");
         }
+
+
     }
 
     public void mostrarPorDias(List<DatosMeteorologia> consulta){
