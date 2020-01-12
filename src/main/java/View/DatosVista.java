@@ -25,10 +25,7 @@ import javafx.stage.WindowEvent;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DatosVista implements Initializable {
     @FXML
@@ -182,7 +179,6 @@ public class DatosVista implements Initializable {
                 }
                 ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
                 listaAux.addAll(resultado);
-                System.out.println("Estoy en la vista: "+ listaAux.size());
                 listaPredicciones.put(ciudad.toString(), listaAux);
                 mostrarPorDias(listaAux);
                 setearDias(listaAux);
@@ -458,7 +454,7 @@ public class DatosVista implements Initializable {
         }
         ObservableList<DatosMeteorologia>[] lista = new ObservableList[4];
 
-        for (int i=0 ;i<resultado.size()-1; i++){
+        for (int i=0 ;i<resultado.size(); i++){
             lista[i]= FXCollections.observableArrayList();
             lista[i].addAll(resultado.get(i));
         }
@@ -518,8 +514,7 @@ public class DatosVista implements Initializable {
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
             dia2.setText(tblTiempo1.getItems().get(1).getDia().toString());
             dia3.setText(tblTiempo2.getItems().get(2).getDia().toString());
-            String a = tblTiempo3.getItems().get(3).getDia().toString();
-            dia4.setText(a);
+            dia4.setText(tblTiempo3.getItems().get(3).getDia().toString());
         }
     }
     //carga el icono del cielo para las tableview
