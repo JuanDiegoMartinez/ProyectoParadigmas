@@ -81,6 +81,9 @@ public class SistemaFacade {
 
         //En caso de no estar hacemos la petición al servidor
         resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, dias);
+
+        System.out.println("Estoy en sistema facade: " + resultado.size());
+
         return resultado;
     }
 

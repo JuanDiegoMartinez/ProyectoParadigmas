@@ -42,10 +42,11 @@ public class GestorPeticiones implements InterfaceGestorPeticiones {
     }
 
     public List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) throws LocationNotFoundException {
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
         String outApi = PeticionesServidor.peticionCiudad5Dias(ciudad);
         List<DatosMeteorologia> lista = JSONParser.convertirListaDatos(outApi);
+        dias = 4;
         for(DatosMeteorologia dm : lista)
             dm.setUbicacion(ciudad);
         InsertarMeteorologiaBBDD.previsionCiudad(lista);
@@ -54,10 +55,11 @@ public class GestorPeticiones implements InterfaceGestorPeticiones {
     }
 
     public List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) throws LocationNotFoundException {
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
         String outApi = PeticionesServidor.peticionCoordenadas5Dias(coordenadas);
         List<DatosMeteorologia> lista = JSONParser.convertirListaDatos(outApi);
+        dias = 4;
         for(DatosMeteorologia dm : lista)
             dm.setUbicacion(coordenadas);
         InsertarMeteorologiaBBDD.previsionCoordenadas(lista);

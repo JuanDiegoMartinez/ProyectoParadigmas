@@ -64,8 +64,10 @@ public class DatosVista implements Initializable {
 
     private HashMap<String,String> alias;
     private ObservableList<String> favoritos;
+    private HashMap<String,Ubicacion> ubicaciones;
     private ObservableMap<String, ObservableList<DatosMeteorologia> >listaPredicciones;
     private ObservableMap<String, DatosMeteorologia > listaTiempoActual;
+    private SistemaFacade SistemaFacade;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -81,6 +83,20 @@ public class DatosVista implements Initializable {
         tabPane.getTabs().remove(dia2);
         tabPane.getTabs().remove(dia3);
         tabPane.getTabs().remove(dia4);
+
+        SistemaFacade = new SistemaFacade();
+        //Obtener la lista de favoritos de la BBDD al iniciar el programa
+        obtenerFavoritos();
+    }
+
+    private void obtenerFavoritos() {
+        List<Ubicacion> listaUbicaciones = SistemaFacade.obtenerListaFavoritos();
+
+        for (int i = 0; i < listaUbicaciones.size(); i++) {
+            favoritos.add(listaUbicaciones.get(i).getEtiqueta());
+            ubicaciones.put(listaUbicaciones.get(i).getEtiqueta(), listaUbicaciones.get(i));
+        }
+        listaFavoritos.setItems(favoritos);
     }
 
     public void requestCerrarAplicacion() {
@@ -97,7 +113,7 @@ public class DatosVista implements Initializable {
         if (txtCiudad.getText().length()>1) {                                       // te aseguras que haya informacion en el txtfield ciudad.
             Ciudad ciudad = new Ciudad(this.txtCiudad.getText());
             try {                                                                   // pide los datos y actualiza base.
-                DatosMeteorologia resultado = Controller.GestorPeticiones.obtenerTiempoHoyCiudad(ciudad);
+                DatosMeteorologia resultado = SistemaFacade.obtenerTiempoHoyCiudad(ciudad);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
@@ -133,7 +149,7 @@ public class DatosVista implements Initializable {
         if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1 && sonNumeros(txtLatitud.getText(),txtLongitud.getText())) {     // Compruebas que Latitud y longitud no estan vacios y son numeros
             Coordenadas coordenadas = new Coordenadas(Double.parseDouble(this.txtLatitud.getText()),  Double.parseDouble(this.txtLongitud.getText()));
             try {                                                                                       // pide los datos y actualiza base.
-                DatosMeteorologia resultado = Controller.GestorPeticiones.obtenerTiempoHoyCoordenadas(coordenadas);
+                DatosMeteorologia resultado = SistemaFacade.obtenerTiempoHoyCoordenadas(coordenadas);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
@@ -169,12 +185,13 @@ public class DatosVista implements Initializable {
         if (txtCiudad.getText().length()>1) {                                                    // te aseguras que haya informacion en el txtfield ciudad.
             Ciudad ciudad = new Ciudad(this.txtCiudad.getText());
             try {                                                                                // pide los datos y actualiza base.
-                List<DatosMeteorologia> resultado = GestorPeticiones.obtenerTiempoXdiasCiudad(ciudad, 5);
+                List<DatosMeteorologia> resultado = SistemaFacade.obtenerTiempoXdiasCiudad(ciudad, 5);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
                 ObservableList<DatosMeteorologia> listaAux= FXCollections.observableArrayList();
                 listaAux.addAll(resultado);
+                System.out.println("Estoy en la vista: "+ listaAux.size());
                 listaPredicciones.put(ciudad.toString(), listaAux);
                 mostrarPorDias(listaAux);
                 setearDias(listaAux);
@@ -202,7 +219,7 @@ public class DatosVista implements Initializable {
         if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1 && sonNumeros(txtLatitud.getText(),txtLongitud.getText())) {       //Compruebas que Latitud y longitud no estan vacios y son numeros
             Coordenadas coordenadas = new Coordenadas(Double.parseDouble(this.txtLatitud.getText()),  Double.parseDouble(this.txtLongitud.getText()));
             try {                                                                                                                         // pide los datos y actualiza base.
-                List<DatosMeteorologia> resultado = Controller.GestorPeticiones.obtenerTiempoXdiasCoordenadas(coordenadas,5);
+                List<DatosMeteorologia> resultado = SistemaFacade.obtenerTiempoXdiasCoordenadas(coordenadas,5);
                 if(resultado==null){
                     informador.setText("Servidor no disponible");//
                 }
@@ -233,32 +250,48 @@ public class DatosVista implements Initializable {
     //añade el objeto que se encuentra en la tableview a favoritos (Listview).
     public void vistaAnadirFavoritos(ActionEvent event) throws LocationNotFoundException {
         ObservableList<DatosMeteorologia> tablaSeteada = tblTiempo.getItems();
-        if(tablaSeteada.size()==0 || tblTiempo.getItems() == null) {                   // ------------->>> si no hay objetos seteados en la tableview
-            informador.setText("No has elegido ninguna ciudad/coordenada como favorito");
-        }else if(favoritos.contains(tablaSeteada.get(0).getUbicacion().toString())){   // ------------->>> comprueba que no este ya en favoritos
+
+        if(tablaSeteada.get(0).getUbicacion().getNombre()!=null) {
+            Ciudad ciudad = new Ciudad(tablaSeteada.get(0).getUbicacion().getNombre());
+            ciudad.setEtiqueta(tablaSeteada.get(0).getUbicacion().getNombre());
+            boolean esta = SistemaFacade.altaCiudadFavoritos(ciudad);
+            if(esta){
+                favoritos.add(ciudad.getEtiqueta());
+                listaFavoritos.setItems(favoritos);
+                ubicaciones.put(ciudad.getEtiqueta(),  ciudad);
+            }else{
                 informador.setText("Ya se encuentra "+tablaSeteada.get(0).getUbicacion().toString()+ " como favorito");
-        }else if(tablaSeteada.get(0).getUbicacion() instanceof Coordenadas) {          // ------------->>> si es coordenada salta ventana emergente.
-                Tag tag = TagBox.display();
-                if(tag.isTag() && !alias.containsKey(tag.getTag())) {                   // --------------->>> ventana emergente seleccionamos aceptar y no hay tag
-                    alias.put(tag.getTag(),tablaSeteada.get(0).getUbicacion().toString());
-                    if(tablaSeteada.size()>1){                                         // ---------------->>> es prediccion
-                        for(DatosMeteorologia dato: listaPredicciones.get(tablaSeteada.get(0).getUbicacion().toString())){ // actualizamos etiqueta para cada objeto DatosMeteorologia
-                            dato.getUbicacion().setEtiqueta(tag.getTag());
-                        }
-                    }else if(tablaSeteada.size()==1){                                  // ------------------>> es solo 1 objeto DatosMeteorologia
-                        tablaSeteada.get(0).getUbicacion().setEtiqueta(tag.getTag());
-                    }
-                    favoritos.add(tag.getTag());
-                    listaFavoritos.setItems(favoritos);
-                }else if(tag.isTag() && alias.containsKey(tag.getTag())){
-                    informador.setText("ya se encuentra utilizado ese alias.");
-                }else if (!tag.isTag()){                                                // --------------->>> ventana emergente seleccionamos cancelar
-                    favoritos.add(tablaSeteada.get(0).getUbicacion().toString());
-                    listaFavoritos.setItems(favoritos);
-                }
+            }
         }else{
-            favoritos.add(tablaSeteada.get(0).getUbicacion().toString());
-            listaFavoritos.setItems(favoritos);
+            String etiqueta = "(" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", " +  tablaSeteada.get(0).getUbicacion().getLongitud() + ")";
+            Coordenadas coordenada = new Coordenadas(tablaSeteada.get(0).getUbicacion().getLatitud(), tablaSeteada.get(0).getUbicacion().getLongitud());
+
+            Tag tag = TagBox.display();
+
+            if (tag.getRespuesta() != 0) {
+
+                if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
+                    etiqueta = tag.getTag();
+                }
+
+                else if (tag.getRespuesta() == 2) {
+                    etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
+                }
+
+                boolean esta = SistemaFacade.altaCoordenadasFavoritos(etiqueta, coordenada);
+
+                if(esta){
+
+                    coordenada.setEtiqueta(etiqueta);
+                    favoritos.add(coordenada.getEtiqueta());
+                    listaFavoritos.setItems(favoritos);
+                    ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
+
+                }else{
+                    informador.setText("Ya se encuentran las coordenadas: ("+tablaSeteada.get(0).getUbicacion().getLatitud()+", "
+                            +tablaSeteada.get(0).getUbicacion().getLongitud()+") como favorito");
+                }
+            }
         }
     }
 
@@ -336,15 +369,25 @@ public class DatosVista implements Initializable {
     //elimina el objeto seleccionado en la Listview
     public void vistaEliminarFavoritos(ActionEvent actionEvent) {
         String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
+
         if(seleccionado==null) {
             informador.setText("No tienes ningun favorito seleccionado, selecciona uno.");
-        }else{
-            if(alias.containsKey(seleccionado)){
-                alias.remove(seleccionado);
+
+        }else if(ubicaciones.containsKey(seleccionado)){
+
+            if(ubicaciones.get(seleccionado).getNombre()!=null){
+                Ciudad ciudad = new Ciudad(ubicaciones.get(seleccionado).getNombre());
+                SistemaFacade.bajaCiudadFavoritos(ciudad);
             }
-            favoritos.remove(seleccionado);
-            listaFavoritos.setItems(favoritos);
+            else {
+                Coordenadas coordenadas = new Coordenadas(ubicaciones.get(seleccionado).getLatitud(), ubicaciones.get(seleccionado).getLongitud());
+                SistemaFacade.bajaCoordenadasFavoritos(coordenadas);
+            }
+            ubicaciones.remove(seleccionado);
+
         }
+        favoritos.remove(seleccionado);
+        listaFavoritos.setItems(favoritos);
     }
     //ordena la Listview por orden ascendente
     public void ordenarFavoritosAsc(ActionEvent actionEvent) {
@@ -355,44 +398,43 @@ public class DatosVista implements Initializable {
         FXCollections.reverse(favoritos);
     }
 
-    public void modificarTag(ActionEvent actionEvent) {
+    public void modificarTag(ActionEvent actionEvent) throws LocationNotFoundException {
         String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
-        if(alias.containsKey(seleccionado)){ // ya es un tag
-            Tag tag = TagBox.display();
-            if(tag.isTag() && !alias.containsKey(tag.getTag())){                           //era ya un tag si quiere cambiarlo y no esta el alias usado
-                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
-                listaFavoritos.setItems(favoritos);
-                String valor = alias.get(seleccionado);
-                alias.remove(seleccionado);
-                alias.put(tag.getTag(), valor);
-                informador.setText("Alias cambiado, "+seleccionado+" paso a ser "+tag.getTag());
-            }else if(tag.isTag() && alias.containsKey(tag.getTag())){
-                informador.setText("El alias "+tag.getTag()+ " ya esta en uso");
-            }
-        }else if(listaPredicciones.containsKey(seleccionado) && listaPredicciones.get(seleccionado).get(0).getUbicacion() instanceof Coordenadas){
-            Tag tag = TagBox.display();
-            if(tag.isTag() && !alias.containsKey(tag.getTag())){                           //es una coordenada si quiere cambiarlo y no esta el alias usado
-                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
-                listaFavoritos.setItems(favoritos);
-                String valor = alias.get(seleccionado);
-                alias.remove(seleccionado);
-                alias.put(tag.getTag(), valor);
-                informador.setText("Alias cambiado, "+seleccionado+" paso a ser "+tag.getTag());
-            }
-        }else if(listaTiempoActual.containsKey(seleccionado) && listaTiempoActual.get(seleccionado).getUbicacion() instanceof Coordenadas) {
-            Tag tag = TagBox.display();
-            if (tag.isTag() && !alias.containsKey(tag.getTag())) {                           //es una coordenada si quiere cambiarlo y no esta el alias usado
-                favoritos.set(favoritos.indexOf(seleccionado), tag.getTag());
-                listaFavoritos.setItems(favoritos);
-                String valor = alias.get(seleccionado);
-                alias.remove(seleccionado);
-                alias.put(tag.getTag(), valor);
-                informador.setText("Alias cambiado, " + seleccionado + " paso a ser " + tag.getTag());
-            }
-        }else{
-                informador.setText("No puedes poner tag a ciudades, ni usar tags repetidos.");
-        }
+        Ubicacion ubi = ubicaciones.get(seleccionado);
 
+        if (ubi.getNombre() != null) {
+            informador.setText("No puedes poner tag a ciudades.");
+        }
+        else {
+            String etiqueta = "(" + ubi.getLatitud() + ", " +  ubi.getLongitud() + ")";
+            Coordenadas coordenada = new Coordenadas(ubi.getLatitud(), ubi.getLongitud());
+            coordenada.setEtiqueta(seleccionado);
+
+            Tag tag = TagBox.display();
+
+            if (tag.getRespuesta() != 0) {
+                if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
+                    etiqueta = tag.getTag();
+                }
+
+                else if (tag.getRespuesta() == 2) {
+                    etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
+                }
+
+                boolean esta = SistemaFacade.modificarEtiqueta(etiqueta, coordenada);
+
+                if (esta) {
+                    coordenada.setEtiqueta(etiqueta);
+                    favoritos.set(favoritos.indexOf(seleccionado), coordenada.getEtiqueta());
+                    listaFavoritos.setItems(favoritos);
+                    ubicaciones.remove(seleccionado);
+                    ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
+                }
+                else{
+                    informador.setText("Ya se encuentran la etiqueta: "+etiqueta+" como favorito");
+                }
+            }
+        }
     }
 
     public void mostrarPorDias(List<DatosMeteorologia> consulta){
@@ -461,14 +503,15 @@ public class DatosVista implements Initializable {
         dia1.getTabPane().getSelectionModel().select(0);
     }
     //setea en las tablaview en las tab el localdate de ese dato
-    private void setearDias(List lista){
+    private void setearDias(List<DatosMeteorologia> lista){
         if (lista.size()==1) {
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
         }else{
             dia1.setText(tblTiempo.getItems().get(0).getDia().toString());
             dia2.setText(tblTiempo1.getItems().get(1).getDia().toString());
             dia3.setText(tblTiempo2.getItems().get(2).getDia().toString());
-            dia4.setText(tblTiempo3.getItems().get(3).getDia().toString());
+            String a = tblTiempo3.getItems().get(3).getDia().toString();
+            dia4.setText(a);
         }
     }
     //carga el icono del cielo para las tableview

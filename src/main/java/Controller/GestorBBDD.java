@@ -48,7 +48,7 @@ public class GestorBBDD implements InterfaceGestorBBDD {
 
     public List<DatosMeteorologia> obtenerTiempoXdiasCiudad(Ciudad ciudad, int dias) {
 
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
 
         ResultSet rs = PeticionesBBDD.bbddCiudadXdias(ciudad, dias);
@@ -66,7 +66,7 @@ public class GestorBBDD implements InterfaceGestorBBDD {
 
     public List<DatosMeteorologia> obtenerTiempoXdiasCoordenadas(Coordenadas coordenadas, int dias) {
 
-        if(dias > 4 || dias <= 0)
+        if(dias > 5 || dias <= 0)
             throw new IllegalArgumentException("El máximo de días para realizar la previsión son 4, y el mínimo 1.");
 
         ResultSet rs = PeticionesBBDD.bbddCoordenadasXdias(coordenadas, dias);

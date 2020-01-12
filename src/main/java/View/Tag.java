@@ -1,24 +1,24 @@
 package View;
 
 public class Tag {
-    private boolean condicion;
+    private int respuesta;
     private String tag;
 
-    public Tag(boolean condicion, String tag) {
-        this.condicion = condicion;
+    public Tag(int respuesta, String tag) {
+        this.respuesta = respuesta;
         this.tag = tag;
     }
 
-    public boolean isTag() {
-        return condicion;
+    public int getRespuesta() {
+        return respuesta;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public void setCondicion(boolean condicion) {
-        this.condicion = condicion;
+    public void setRespuesta(int respuesta) {
+        this.respuesta = respuesta;
     }
 
     public void setTag(String tag) {

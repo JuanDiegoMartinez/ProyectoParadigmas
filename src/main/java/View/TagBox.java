@@ -7,7 +7,7 @@ import javafx.geometry.*;
 
 public class TagBox {
     static String tag;
-    static boolean respuesta;
+    static int respuesta;
 
     public static Tag display() {
         Stage ventana = new Stage();
@@ -32,17 +32,17 @@ public class TagBox {
 
         tercerBoton.setOnAction(e -> {
             tag = txtTag.getText();
-            respuesta = true;
+            respuesta = 2;
             ventana.close();
         });
 
         aceptarBoton.setOnAction(e -> {
             tag = txtTag.getText();
-            respuesta = true;
+            respuesta = 1;
             ventana.close();
         });
         cancelarBoton.setOnAction(e -> {
-            respuesta = false;
+            respuesta = 0;
             ventana.close();
         });
 
