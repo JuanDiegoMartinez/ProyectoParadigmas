@@ -76,6 +76,7 @@ public class DatosVista implements Initializable {
         ordenarFavoritosDes = new MenuItem();
         ordenarFavoritos.getItems().addAll(ordenarFavoritosAsc,ordenarFavoritosDes);
         alias = new HashMap<>();
+        ubicaciones = new HashMap<>();
         iniciarColumnas();
         tabPane.getTabs().remove(dia2);
         tabPane.getTabs().remove(dia3);
@@ -83,7 +84,7 @@ public class DatosVista implements Initializable {
 
         SistemaFacade = new SistemaFacade();
         //Obtener la lista de favoritos de la BBDD al iniciar el programa
-        //obtenerFavoritos();
+        obtenerFavoritos();
     }
     
 
@@ -92,6 +93,16 @@ public class DatosVista implements Initializable {
             System.out.println("Cerrando aplicacion");
             //SistemaFacade.ordenar();
         });
+    }
+
+    private void obtenerFavoritos() {
+        List<Ubicacion> listaUbicaciones = SistemaFacade.obtenerListaFavoritos();
+
+        for (int i = 0; i < listaUbicaciones.size(); i++) {
+            favoritos.add(listaUbicaciones.get(i).getEtiqueta());
+            ubicaciones.put(listaUbicaciones.get(i).getEtiqueta(), listaUbicaciones.get(i));
+        }
+        listaFavoritos.setItems(favoritos);
     }
 
     //consulta el tiempo de un dia en una ciudad
@@ -237,53 +248,57 @@ public class DatosVista implements Initializable {
     //añade el objeto que se encuentra en la tableview a favoritos (Listview).
     public void vistaAnadirFavoritos(ActionEvent event) throws LocationNotFoundException {
 
-        try {
-            ObservableList<DatosMeteorologia> tablaSeteada = tblTiempo.getItems();
+        if (txtCiudad.getText().length() <= 0 && txtLatitud.getText().length() <= 0 && txtLongitud.getText().length() <= 0) {
+            informador.setText("No has seleccionado ninguna ciudad o coordenada.");
+        }
+        else {
 
-            if(tablaSeteada.get(0).getUbicacion().getNombre()!=null) {
-                Ciudad ciudad = new Ciudad(tablaSeteada.get(0).getUbicacion().getNombre());
-                ciudad.setEtiqueta(tablaSeteada.get(0).getUbicacion().getNombre());
-                boolean esta = SistemaFacade.altaCiudadFavoritos(ciudad);
-                if(esta){
-                    favoritos.add(ciudad.getEtiqueta());
-                    listaFavoritos.setItems(favoritos);
-                    ubicaciones.put(ciudad.getEtiqueta(),  ciudad);
-                }else{
-                    informador.setText("Ya se encuentra "+tablaSeteada.get(0).getUbicacion().toString()+ " como favorito");
-                }
-            }else{
-                String etiqueta = "(" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", " +  tablaSeteada.get(0).getUbicacion().getLongitud() + ")";
-                Coordenadas coordenada = new Coordenadas(tablaSeteada.get(0).getUbicacion().getLatitud(), tablaSeteada.get(0).getUbicacion().getLongitud());
+            try {
+                ObservableList<DatosMeteorologia> tablaSeteada = tblTiempo.getItems();
 
-                Tag tag = TagBox.display();
-
-                if (tag.getRespuesta() != 0) {
-
-                    if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
-                        etiqueta = tag.getTag();
-                    }
-
-                    else if (tag.getRespuesta() == 2) {
-                        etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
-                    }
-
-                    boolean esta = SistemaFacade.altaCoordenadasFavoritos(etiqueta, coordenada);
-
-                    if(esta){
-
-                        coordenada.setEtiqueta(etiqueta);
-                        favoritos.add(coordenada.getEtiqueta());
+                if (tablaSeteada.get(0).getUbicacion().getNombre() != null) {
+                    Ciudad ciudad = new Ciudad(tablaSeteada.get(0).getUbicacion().getNombre());
+                    ciudad.setEtiqueta(tablaSeteada.get(0).getUbicacion().getNombre());
+                    boolean esta = SistemaFacade.altaCiudadFavoritos(ciudad);
+                    if (esta) {
+                        favoritos.add(ciudad.getEtiqueta());
                         listaFavoritos.setItems(favoritos);
-                        ubicaciones.put(coordenada.getEtiqueta(),  coordenada);
+                        ubicaciones.put(ciudad.getEtiqueta(), ciudad);
+                    } else {
+                        informador.setText("Ya se encuentra " + tablaSeteada.get(0).getUbicacion().toString() + " como favorito");
+                    }
+                } else {
+                    String etiqueta = "(" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", " + tablaSeteada.get(0).getUbicacion().getLongitud() + ")";
+                    Coordenadas coordenada = new Coordenadas(tablaSeteada.get(0).getUbicacion().getLatitud(), tablaSeteada.get(0).getUbicacion().getLongitud());
 
-                    }else{
-                        informador.setText("Ya se encuentran las coordenadas: ("+tablaSeteada.get(0).getUbicacion().getLatitud()+", "
-                                +tablaSeteada.get(0).getUbicacion().getLongitud()+") como favorito");
+                    Tag tag = TagBox.display();
+
+                    if (tag.getRespuesta() != 0) {
+
+                        if (tag.getRespuesta() == 1 && tag.getTag().length() > 0) {
+                            etiqueta = tag.getTag();
+                        } else if (tag.getRespuesta() == 2) {
+                            etiqueta = SistemaFacade.obtenerEtiqueta(coordenada);
+                        }
+
+                        boolean esta = SistemaFacade.altaCoordenadasFavoritos(etiqueta, coordenada);
+
+                        if (esta) {
+
+                            coordenada.setEtiqueta(etiqueta);
+                            favoritos.add(coordenada.getEtiqueta());
+                            listaFavoritos.setItems(favoritos);
+                            ubicaciones.put(coordenada.getEtiqueta(), coordenada);
+
+                        } else {
+                            informador.setText("Ya se encuentran las coordenadas: (" + tablaSeteada.get(0).getUbicacion().getLatitud() + ", "
+                                    + tablaSeteada.get(0).getUbicacion().getLongitud() + ") como favorito");
+                        }
                     }
                 }
+            } catch (Exception e) {
+                informador.setText("Antes de anadir a favoritos debes pedir la prevision.");
             }
-        } catch (Exception e) {
-            informador.setText("Antes de anadir a favoritos debes pedir la prevision.");
         }
 
 
@@ -369,9 +384,6 @@ public class DatosVista implements Initializable {
 
         }else if(ubicaciones.containsKey(seleccionado)){
 
-            System.out.println(ubicaciones.containsKey(seleccionado));
-            System.out.println(seleccionado);
-
             if(ubicaciones.get(seleccionado).getNombre()!=null){
                 Ciudad ciudad = new Ciudad(ubicaciones.get(seleccionado).getNombre());
                 SistemaFacade.bajaCiudadFavoritos(ciudad);
@@ -388,6 +400,43 @@ public class DatosVista implements Initializable {
     }
     //ordena la Listview por orden ascendente
     public void ordenarFavoritosAsc(ActionEvent actionEvent) {
+        //FXCollections.sort(favoritos);
+
+        List<String> aux1 = new ArrayList<>();
+        List<String> aux2 = new ArrayList<>();
+
+        for (int i = 0; i < favoritos.size(); i++) {
+            aux1.add(favoritos.get(i).toLowerCase());
+        }
+
+        Collections.sort(aux1);
+
+        System.out.println("Lista que tiene que devolver");
+        for (int i = 0; i < aux1.size(); i++) {
+            System.out.println(aux1.get(i));
+        }
+
+        for (int i = 0; i < aux1.size(); i++) {
+
+            String a = aux1.get(i);
+
+            for (int j = 0; j < favoritos.size(); j++) {
+
+                String fav = favoritos.get(j).toLowerCase();
+
+                if (a.equals(fav)) {
+                    aux2.add(favoritos.get(j));
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.println("Lista que devuelve");
+        for (int i = 0; i < favoritos.size(); i++) {
+            System.out.println(aux2.get(i));
+        }
+
+        //favoritos = (ObservableList<String>) aux2;
         FXCollections.sort(favoritos);
     }
     //ordena la Listview por orden descendente.
