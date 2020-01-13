@@ -96,6 +96,12 @@ public class DatosVista implements Initializable {
         });
     }
 
+    private void ordenarFav() {
+        List<String> aux = new ArrayList<>();
+        aux.addAll(favoritos);
+        SistemaFacade.ordenar(aux);
+    }
+
     private void obtenerFavoritos() {
         List<Ubicacion> listaUbicaciones = SistemaFacade.obtenerListaFavoritos();
 
@@ -305,6 +311,34 @@ public class DatosVista implements Initializable {
 
     }
 
+    public void seleccionarFavoritos(MouseEvent event) throws LocationNotFoundException {
+        resetearTablas();
+        String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
+        ActionEvent event1 = new ActionEvent();
+
+        if(seleccionado == null) {
+            informador.setText("Favoritos esta vacio");
+        }
+
+        else {
+
+            Ubicacion ubi = ubicaciones.get(seleccionado);
+
+            if (ubi.getNombre() != null) {
+                txtCiudad.setText(seleccionado);
+                vistaCiudadHoy(event1);
+            }
+
+            else {
+                double latitud = ubi.getLatitud();
+                double longitud = ubi.getLongitud();
+                txtLatitud.setText(String.valueOf(latitud));
+                txtLongitud.setText(String.valueOf(longitud));
+                vistaCoordenadasHoy(event1);
+            }
+        }
+    }
+    /*
     //carga el objeto de la listView a la tableView
     public void seleccionarFavoritos(MouseEvent event){
         resetearTablas();
@@ -344,6 +378,8 @@ public class DatosVista implements Initializable {
         }
 
     }
+     */
+
     //sube 1 posicion el objeto seleccionado en la Listview
     public void ordenarFavoritosSubir(ActionEvent actionEvent) {
         String seleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
@@ -358,6 +394,10 @@ public class DatosVista implements Initializable {
             favoritos.set(indexSeleccionado, aux);
             listaFavoritos.setItems(favoritos);
             listaFavoritos.getSelectionModel().select(seleccionado);
+
+            //List<String> aux2 = new ArrayList<>();
+            //aux2.addAll(favoritos);
+            //SistemaFacade.ordenar(aux2);
         }
     }
     //baja 1 posicion el objeto seleccionado en la Listview
@@ -374,6 +414,10 @@ public class DatosVista implements Initializable {
             favoritos.set(indexSeleccionado, aux);
             listaFavoritos.setItems(favoritos);
             listaFavoritos.getSelectionModel().select(seleccionado);
+
+            //List<String> aux2 = new ArrayList<>();
+            //aux2.addAll(favoritos);
+            //SistemaFacade.ordenar(aux2);
         }
     }
     //elimina el objeto seleccionado en la Listview
@@ -429,6 +473,7 @@ public class DatosVista implements Initializable {
         lista.addAll(aux2);
         favoritos = lista;
         listaFavoritos.setItems(favoritos);
+        //SistemaFacade.ordenar(aux2);
     }
     //ordena la Listview por orden descendente.
     public void ordenarFavoritosDes(ActionEvent actionEvent) {
@@ -460,6 +505,7 @@ public class DatosVista implements Initializable {
         lista.addAll(aux2);
         favoritos = lista;
         listaFavoritos.setItems(favoritos);
+        //SistemaFacade.ordenar(aux2);
     }
 
     public void modificarTag(ActionEvent actionEvent) throws LocationNotFoundException {

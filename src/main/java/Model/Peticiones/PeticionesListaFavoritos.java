@@ -43,22 +43,34 @@ public class PeticionesListaFavoritos {
 
     public void ordenar(List<String> ubicaciones) {
 
-        String alter = "ALTER TABLE Favoritos RENAME TO Favoritos_old;";
+        //String alter = "ALTER TABLE Favoritos RENAME TO Favoritos_old;";
 
+        /*
         String tabla = "CREATE TABLE Favoritos ("
                 + "    Etiqueta VARCHAR NOT NULL,\n"
                 + "    Nombre VARCHAR NULL,\n"
                 + "    Latitud DOUBLE NULL,\n"
                 + "    Longitud DOUBLE NULL\n"
                 + ");";
+         */
 
         try {
             Connection con = BBDD.getConn();
             Statement stmt = con.createStatement();
 
-            stmt.execute(alter);
+            //stmt.execute(alter);
 
-            stmt.execute(tabla);
+            //stmt.execute(tabla);
+
+            String insert = "INSERT INTO Favoritos_old(Etiqueta, Nombre, Latitud, Longitud) " +
+                            "SELECT Etiqueta, Nombre, Latitud, Longitud " +
+                            "FROM Favoritos;";
+
+            stmt.execute(insert);
+
+            String delete = "DELETE FROM Favoritos;";
+
+            stmt.execute(delete);
 
             String sql = "INSERT INTO Favoritos(Etiqueta, Nombre, Latitud, Longitud) " +
                             "SELECT Etiqueta, Nombre, Latitud, Longitud " +
@@ -70,9 +82,11 @@ public class PeticionesListaFavoritos {
                 st.executeUpdate();
             }
 
-            String drop = "DROP TABLE Favoritos_old;";
-            stmt.execute(drop);
-            BBDD.close();
+            //String drop = "DROP TABLE Favoritos_old;";
+            //stmt.execute(drop);
+            //BBDD.close();
+            delete = "DELETE FROM Favoritos_old;";
+            stmt.execute(delete);
 
         } catch (SQLException e) {
             e.printStackTrace();
