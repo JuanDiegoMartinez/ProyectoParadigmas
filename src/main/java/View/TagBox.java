@@ -16,17 +16,17 @@ public class TagBox {
         //ventana.initStyle(StageStyle.TRANSPARENT);      //quitar marcos
 
         Label label = new Label();
-        label.setText("Si no introduces un tag, se anadira un tag por defecto.");
+        label.setText("Si no introduces un tag, se creara un tag por defecto.\nTambien puedes generar un nombre basado en las coordenadas.");
 
         TextField txtTag = new TextField();
         txtTag.setPrefWidth(130);
         txtTag.setMaxWidth(130);
         Button aceptarBoton = new Button("Aceptar");
         Button cancelarBoton = new Button("Cancelar");
-        Button tercerBoton = new Button("Tercero");
+        Button tercerBoton = new Button("Generar");
         aceptarBoton.setTranslateX(-35);aceptarBoton.setTranslateY(25);
         cancelarBoton.setTranslateX(35);cancelarBoton.setTranslateY(-10);
-        tercerBoton.setTranslateX(-110);tercerBoton.setTranslateY(-45);
+        tercerBoton.setTranslateX(0);tercerBoton.setTranslateY(-10);
         txtTag.setTranslateY(10);
         label.setTranslateY(10);
 
