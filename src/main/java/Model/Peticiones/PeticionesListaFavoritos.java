@@ -72,6 +72,7 @@ public class PeticionesListaFavoritos {
 
             String drop = "DROP TABLE Favoritos_old;";
             stmt.execute(drop);
+            BBDD.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

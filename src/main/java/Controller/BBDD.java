@@ -24,6 +24,7 @@ public class BBDD {
     }
 
     public static void close() throws SQLException {
+        System.out.println("Cerrando conexión con la base de datos");
         conn.close();
     }
 
