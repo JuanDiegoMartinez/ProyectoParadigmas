@@ -20,40 +20,36 @@ public class HU16 {
     @Test
     public void ordenarAlfaAsc() {
         //Datos
-        List<Ubicacion> lista = new ArrayList<Ubicacion>();
-        String[] etiquetas = {"Madrid", "Valencia", "Barcelona"};
-        Ciudad[] ciudades = {new Ciudad("Madrid"), new Ciudad("Valencia"), new Ciudad("Barcelona")};
-        for (int i = 0; i < etiquetas.length; i++) {
-            Ubicacion ubi = ciudades[i];
-            ubi.setEtiqueta(etiquetas[i]);
-            lista.add(ubi);
-        }
+        List<String> etiquetas = new ArrayList<>();
+        etiquetas.add("madrid");
+        etiquetas.add("valencia");
+        etiquetas.add("barcelona");
 
         try {
             //Obtenemos la conexión a la BBDD
             Connection con = BBDD.getConn();
 
             //Insertamos los datos en la BBDD
-            for(int i = 0; i < etiquetas.length; i++) {
+            for(int i = 0; i < etiquetas.size(); i++) {
                 String sql = "INSERT INTO Favoritos VALUES(?, ?, null, null)";
                 PreparedStatement stmt = con.prepareStatement(sql);
-                stmt.setString(1, etiquetas[i]);
-                stmt.setString(2, etiquetas[i]);
+                stmt.setString(1, etiquetas.get(i));
+                stmt.setString(2, etiquetas.get(i));
                 stmt.executeUpdate();
             }
             //Método a probar
-            Collections.sort(lista, new Comparator<Ubicacion>() {
+            Collections.sort(etiquetas, new Comparator<String>() {
                 @Override
-                public int compare(Ubicacion o1, Ubicacion o2) {
-                    return o2.getEtiqueta().compareTo(o1.getEtiqueta());
+                public int compare(String o1, String o2) {
+                    return o2.compareTo(o1);
                 }
             });
-
-            new SistemaFacade().ordenar(lista);
+            
+            new SistemaFacade().ordenar(etiquetas);
             String sql = "SELECT Etiqueta FROM Favoritos";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            String[] listaDevolver = {"Valencia", "Madrid", "Barcelona"};
+            String[] listaDevolver = {"valencia", "madrid", "barcelona"};
             int j = 0;
 
             while(rs.next()) {
@@ -62,10 +58,10 @@ public class HU16 {
             }
 
             //Borramos los datos en la BBDD
-            for(int i = 0; i < lista.size(); i++) {
+            for(int i = 0; i < etiquetas.size(); i++) {
                 String sql1 = "DELETE FROM Favoritos WHERE Etiqueta = ?";
                 PreparedStatement stmt1 = con.prepareStatement(sql1);
-                stmt1.setString(1, etiquetas[i]);
+                stmt1.setString(1, etiquetas.get(i));
                 stmt1.executeUpdate();
             }
 
