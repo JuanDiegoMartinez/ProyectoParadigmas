@@ -1,7 +1,6 @@
 package View;
 
 import Controller.GestorPeticiones;
-import Excepciones.ActionPerformedException;
 import Excepciones.LocationNotFoundException;
 import Model.Datos.Ciudad;
 import Model.Datos.Coordenadas;
@@ -179,7 +178,7 @@ public class DatosVista implements Initializable {
     }
     //consulta el tiempo de una prediccion en una ciudad
     @FXML
-    public void vistaDiasCiudad(ActionEvent event) throws LocationNotFoundException, ActionPerformedException {
+    public void vistaDiasCiudad(ActionEvent event) throws LocationNotFoundException {
         resetearTablas();
         if (txtCiudad.getText().length()>1) {                                                    // te aseguras que haya informacion en el txtfield ciudad.
             Ciudad ciudad = new Ciudad(this.txtCiudad.getText());
@@ -212,7 +211,7 @@ public class DatosVista implements Initializable {
         }
     }
     //consulta el tiempo de una prediccion en una coordenada
-    public void vistaDiasCoordenadas(ActionEvent event) throws LocationNotFoundException, ActionPerformedException {
+    public void vistaDiasCoordenadas(ActionEvent event) throws LocationNotFoundException {
         resetearTablas();
         if (txtLatitud.getText().length()>1 && txtLongitud.getText().length()>1 && sonNumeros(txtLatitud.getText(),txtLongitud.getText())) {       //Compruebas que Latitud y longitud no estan vacios y son numeros
             Coordenadas coordenadas = new Coordenadas(Double.parseDouble(this.txtLatitud.getText()),  Double.parseDouble(this.txtLongitud.getText()));
