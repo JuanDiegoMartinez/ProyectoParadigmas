@@ -69,7 +69,7 @@ public class DatosVista implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
         listaTiempoActual = FXCollections.observableHashMap();
         listaPredicciones = FXCollections.observableHashMap();
-        favoritos = FXCollections.observableArrayList();;
+        favoritos = FXCollections.observableArrayList();
         ordenarFavoritos= new MenuButton();
         ordenarFavoritosAsc = new MenuItem();
         ordenarFavoritosDes = new MenuItem();
@@ -90,7 +90,9 @@ public class DatosVista implements Initializable {
     public void requestCerrarAplicacion() {
         panel.getScene().getWindow().setOnCloseRequest((WindowEvent event1) -> {
             System.out.println("Cerrando aplicacion");
-            //SistemaFacade.ordenar();
+            List<String> aux = new ArrayList<>();
+            aux.addAll(favoritos);
+            SistemaFacade.ordenar(aux);
         });
     }
 
@@ -399,7 +401,6 @@ public class DatosVista implements Initializable {
     }
     //ordena la Listview por orden ascendente
     public void ordenarFavoritosAsc(ActionEvent actionEvent) {
-        //FXCollections.sort(favoritos);
 
         List<String> aux1 = new ArrayList<>();
         List<String> aux2 = new ArrayList<>();
@@ -409,11 +410,6 @@ public class DatosVista implements Initializable {
         }
 
         Collections.sort(aux1);
-
-        System.out.println("Lista que tiene que devolver");
-        for (int i = 0; i < aux1.size(); i++) {
-            System.out.println(aux1.get(i));
-        }
 
         for (int i = 0; i < aux1.size(); i++) {
 
@@ -429,18 +425,41 @@ public class DatosVista implements Initializable {
             }
         }
 
-        System.out.println();
-        System.out.println("Lista que devuelve");
-        for (int i = 0; i < favoritos.size(); i++) {
-            System.out.println(aux2.get(i));
-        }
-
-        //favoritos = (ObservableList<String>) aux2;
-        FXCollections.sort(favoritos);
+        ObservableList<String> lista = FXCollections.observableArrayList();
+        lista.addAll(aux2);
+        favoritos = lista;
+        listaFavoritos.setItems(favoritos);
     }
     //ordena la Listview por orden descendente.
     public void ordenarFavoritosDes(ActionEvent actionEvent) {
-        FXCollections.reverse(favoritos);
+
+        List<String> aux1 = new ArrayList<>();
+        List<String> aux2 = new ArrayList<>();
+
+        for (int i = 0; i < favoritos.size(); i++) {
+            aux1.add(favoritos.get(i).toLowerCase());
+        }
+
+        Collections.reverse(aux1);
+
+        for (int i = 0; i < aux1.size(); i++) {
+
+            String a = aux1.get(i);
+
+            for (int j = 0; j < favoritos.size(); j++) {
+
+                String fav = favoritos.get(j).toLowerCase();
+
+                if (a.equals(fav)) {
+                    aux2.add(favoritos.get(j));
+                }
+            }
+        }
+
+        ObservableList<String> lista = FXCollections.observableArrayList();
+        lista.addAll(aux2);
+        favoritos = lista;
+        listaFavoritos.setItems(favoritos);
     }
 
     public void modificarTag(ActionEvent actionEvent) throws LocationNotFoundException {

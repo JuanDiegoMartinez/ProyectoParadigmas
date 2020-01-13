@@ -139,7 +139,7 @@ public class SistemaFacade {
     }
 
     //Ordenar lista de favoritos
-    public void ordenar(List<Ubicacion> ubicaciones) {
+    public void ordenar(List<String> ubicaciones) {
         PeticionesListaFavoritos.ordenar(ubicaciones);
     }
 }

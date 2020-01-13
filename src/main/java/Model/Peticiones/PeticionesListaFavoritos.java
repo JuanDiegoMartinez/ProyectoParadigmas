@@ -41,7 +41,7 @@ public class PeticionesListaFavoritos {
         return favoritos;
     }
 
-    public void ordenar(List<Ubicacion> ubicaciones) {
+    public void ordenar(List<String> ubicaciones) {
 
         String alter = "ALTER TABLE Favoritos RENAME TO Favoritos_old;";
 
@@ -66,7 +66,7 @@ public class PeticionesListaFavoritos {
 
             for (int i = 0; i < ubicaciones.size(); i++) {
                 PreparedStatement st = con.prepareStatement(sql);
-                st.setString(1, ubicaciones.get(i).getEtiqueta());
+                st.setString(1, ubicaciones.get(i));
                 st.executeUpdate();
             }
 
